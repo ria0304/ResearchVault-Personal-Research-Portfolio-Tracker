@@ -10,7 +10,6 @@ A personal, single-file tracker for my research projects, patents, conference pa
 | Patents | Application status, IDF, publication fee, publication, grant decision, application number, filing date, inventors, institution, payment details, document links |
 | Conferences | Status, paper ID, venue, website, conference dates, submission and registration deadlines, notification date, acceptance letter, camera-ready, presentation, proceedings, indexing |
 | Journals | Workflow status, journal, publisher, manuscript ID, dates, decision, revision, APC, manuscript link |
-| Books | Proposal status, subtitle, editorial contact, contract and manuscript state, and several publishers per proposal |
 
 Every record also has a **Notes** box and a **checklist**. Each section has its own checklist as well.
 
