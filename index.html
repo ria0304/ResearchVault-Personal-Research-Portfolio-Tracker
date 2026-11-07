@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Research Portfolio</title>
+<style>
+:root{--bg1:#1b1036;--bg2:#3a1b6b;--card:rgba(255,255,255,.06);--line:rgba(255,255,255,.13);--tx:#f3eefc;--mu:#bfb4d9;--ac:#4f7cf3;--in:rgba(10,5,30,.4);--ok:#4ade80;--wn:#fbbf24;--bd:#f87171;--inf:#93a8ff;--sb:rgba(12,6,32,.5)}
+[data-theme=light]{--bg1:#f4f0fc;--bg2:#e4d9f8;--card:#fff;--line:#d6cbef;--tx:#241743;--mu:#5f5580;--ac:#3f66e0;--in:#f7f4fd;--ok:#15803d;--wn:#a16207;--bd:#b91c1c;--inf:#3f4fc9;--sb:rgba(255,255,255,.75)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--tx);background:linear-gradient(135deg,var(--bg1),var(--bg2)) fixed}
+svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+h1{font-size:26px;margin:0}h2{font-size:17px;margin:0 0 12px}
+.mu,small{color:var(--mu)}small{font-size:12.5px}
+.app{display:grid;grid-template-columns:250px 1fr}
+aside{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:3px;padding:18px 14px;background:var(--sb);border-right:1px solid var(--line);backdrop-filter:blur(12px);overflow:auto}
+.brand{display:flex;gap:10px;align-items:center;padding:2px 8px 16px}.brand b{display:block;line-height:1.2}
+.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#a855f7);display:grid;place-items:center;color:#fff}
+aside .sec{font-size:12.5px;color:var(--mu);padding:14px 12px 4px}
+nav a,.nb{display:flex;gap:10px;align-items:center;padding:9px 12px;border-radius:9px;color:var(--mu);text-decoration:none;border:1px solid transparent;background:none;font:inherit;cursor:pointer;width:100%;text-align:left}
+nav a:hover,.nb:hover{color:var(--tx);background:var(--card)}
+nav a.on{color:var(--tx);background:rgba(99,102,241,.28);border-color:rgba(129,140,248,.55)}
+.foot{margin-top:auto;padding:10px 12px 0;border-top:1px solid var(--line)}
+main{padding:22px 28px 60px;min-width:0;max-width:1280px}
+.top{display:flex;gap:12px;align-items:center;margin-bottom:22px}
+.sr{flex:1;display:flex;align-items:center;gap:10px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--mu)}
+.sr input{border:0;background:none;outline:0;color:var(--tx);font:inherit;width:100%;padding:11px 0}
+.menu{display:none}
+button{font:inherit}
+.btn,.btn2,.ic{cursor:pointer;border-radius:9px;border:1px solid var(--line);color:var(--tx);background:var(--card);padding:8px 14px;display:inline-flex;gap:8px;align-items:center}
+.btn{background:var(--ac);border-color:transparent;color:#fff}.btn:hover{filter:brightness(1.1)}
+.btn2:hover,.ic:hover{background:var(--in)}.ic{padding:7px 9px}
+:focus-visible{outline:2px solid var(--inf);outline-offset:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}
+.hero{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:26px 28px;margin-bottom:18px}
+.hero h1{font-size:28px}.hero p{margin:6px 0 0;color:var(--mu)}
+.hero .logo{width:60px;height:60px;border-radius:14px}.hero .logo svg{width:28px;height:28px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.stat{display:block;text-decoration:none;color:inherit;margin:0}.stat:hover{border-color:var(--inf)}
+.si{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;color:#fff;margin-bottom:12px}
+.stat b{font-size:26px;display:block;line-height:1.1}
+.two{display:grid;grid-template-columns:1.6fr 1fr;gap:14px;align-items:start}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;color:inherit;background:var(--in);border:1px solid transparent;border-radius:10px;padding:10px 14px;margin-bottom:8px;cursor:pointer}
+button.row:hover{border-color:var(--line)}
+.row span:first-child{min-width:0}.row b{display:block;font-weight:600}
+.dot{width:10px;height:10px;border-radius:50%;background:currentColor;display:inline-block;margin-left:8px}
+.bg{display:inline-block;padding:2px 11px;border-radius:99px;font-size:12.5px;white-space:nowrap;color:var(--inf);background:color-mix(in srgb,var(--inf) 16%,transparent);border:1px solid color-mix(in srgb,var(--inf) 35%,transparent)}
+.ok{color:var(--ok)}.wn{color:var(--wn)}.bd{color:var(--bd)}
+.bg.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);border-color:color-mix(in srgb,var(--ok) 35%,transparent)}
+.bg.wn{background:color-mix(in srgb,var(--wn) 16%,transparent);border-color:color-mix(in srgb,var(--wn) 35%,transparent)}
+.bg.bd{background:color-mix(in srgb,var(--bd) 16%,transparent);border-color:color-mix(in srgb,var(--bd) 35%,transparent)}
+.ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:12px}
+.bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}.bar input{flex:1;min-width:180px}
+input,select,textarea{width:100%;background:var(--in);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:inherit}
+textarea{resize:vertical;min-height:84px}.bar select{width:auto}
+.rh{display:flex;align-items:center;gap:12px}.rh>div:first-child{flex:1;min-width:0}
+.tt{background:none;border:1px solid transparent;font-weight:650;font-size:16px;padding:3px 6px;margin-left:-6px}
+.tt:hover,.tt:focus{border-color:var(--line);background:var(--in)}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:16px}
+label span,.lb{display:block;font-size:12.5px;color:var(--mu);margin-bottom:3px}
+.w{grid-column:1/-1}.lk{font-size:13px;color:var(--inf)}
+.pr{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr 1.4fr auto;gap:8px;margin-bottom:8px}
+.acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.hist{font-size:13px;color:var(--mu);margin:0;padding-left:18px}
+pre{white-space:pre-wrap;font:inherit;margin:4px 0 0;color:var(--mu)}
+#warn{display:none;padding:10px 14px;border-radius:10px;background:color-mix(in srgb,var(--bd) 18%,transparent);margin-bottom:14px}
+@media(max-width:1000px){.stats{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.pr{grid-template-columns:1fr 1fr}}
+@media(max-width:780px){.app{grid-template-columns:1fr}main{padding:16px}aside{position:fixed;left:0;top:0;width:260px;z-index:20;transform:translateX(-100%);transition:transform .2s;background:var(--bg1)}.nav-open aside{transform:none}.menu{display:inline-flex}.hero .logo{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+ <div class="brand"><div class="logo" id="logo"></div><div><b>Research Portfolio</b><small>Personal tracker</small></div></div>
+ <nav id="nav"></nav>
+ <div class="sec">Data backup</div>
+ <button class="nb" data-act="export"></button>
+ <button class="nb" data-act="import"></button>
+ <button class="nb" data-act="notes"></button>
+ <button class="nb" data-act="theme"></button>
+ <input type="file" id="imp" accept="application/json" hidden>
+ <div class="foot"><small id="stamp"></small></div>
+</aside>
+<main>
+ <div class="top"><button class="ic menu" data-act="menu" aria-label="Open menu" id="mb"></button>
+  <label class="sr"><span id="si"></span><input id="gs" type="search" placeholder="Search papers, patents, projects, notes" aria-label="Search everything"></label></div>
+ <div id="warn">Browser storage is unavailable here, so changes will not persist. Use Export backup to keep them.</div>
+ <div id="view"></div>
+</main>
+</div>
+<script>
+'use strict';
+/* ---------- constants ---------- */
+const KEY='research-portfolio-v1';
+const S_CONF=['Planned','Drafting','Submitted','Awaiting decision','Accepted','Rejected','Camera-ready sent','Registered','Presented','Published','Withdrawn'];
+const S_PAT=['Idea / concept','Draft in preparation','IDF pending','IDF completed','Awaiting faculty signature','Ready for submission','Submitted','Approved by E-Cell','Application number awaited','Fees pending','Fees paid','Publication pending','Published','Abandoned / withdrawn'];
+const S_JOU=['Research ongoing','Data collection','Experiments','Drafting','Internal review','Ready for submission','Submitted','Initial screening','Under review','Major revision','Minor revision','Accepted','Rejected','Published'];
+const S_BOOK=['Idea','Proposal in preparation','Submitted','Under review','Revision requested','Accepted','Rejected','Contract signed','Manuscript in progress','Published'];
+const S_PRJ=['Idea','Building','Experiments','Writing','Submitted','Done','Paused'];
+const S_PUB=['Submitted','Under review','Revision requested','Accepted','Rejected'];
+const PROG=['Not started','Pending','Done'];
+const SCHEMA={
+ projects:{nav:'Research Projects',one:'project',st:'stage',statuses:S_PRJ,meta:r=>(r.repo||'').replace('https://github.com/',''),
+  f:[['stage','Stage','sel',S_PRJ],['next','Next milestone','text'],['repo','GitHub repository','url'],['desc','Description','area'],['obj','Research objectives','area'],['prog','Technical progress, experiments and results','area']]},
+ patents:{nav:'Patents',one:'patent',st:'status',statuses:S_PAT,meta:r=>pn(r.project),
+  f:[['status','Application status','sel',S_PAT],['project','Project','proj'],['idf','IDF','sel',['Pending','Completed']],['fee','Publication fee','sel',['Pending','Paid']],['pub','Publication','sel',['Pending','Published']],['grant','Patent grant','sel',['Pursuing','Not pursuing']],['appNo','Application number','text'],['filed','Filing date','date'],['inventors','Inventors','text'],['inst','Institution','text'],['pay','Payment details','text'],['docs','Submission documents (link)','url'],['link','Official link','url']]},
+ conferences:{nav:'Conferences',one:'conference paper',st:'status',statuses:S_CONF,meta:r=>[r.venue,r.start&&fmt(r.start)].filter(Boolean).join(', '),
+  f:[['status','Status','sel',S_CONF],['project','Project','proj'],['paperId','Paper ID','text'],['venue','Conference','text'],['site','Website','url'],['start','Conference start','date'],['end','Conference end','date'],['subDl','Submission deadline','date'],['sub','Submission date','date'],['dec','Acceptance notification date','date'],['letter','Acceptance letter (link)','url'],['reg','Registration and payment','sel',PROG],['regDl','Registration deadline','date'],['cam','Camera-ready','sel',PROG],['pres','Presentation','sel',['Not scheduled','Preparing','Done']],['proc','Proceedings','sel',['Pending','Published']],['idx','Indexing','text']]},
+ journals:{nav:'Journals',one:'manuscript',st:'status',statuses:S_JOU,meta:r=>r.journal,
+  f:[['status','Workflow status','sel',S_JOU],['project','Project','proj'],['journal','Journal','text'],['publisher','Publisher','text'],['mid','Manuscript ID','text'],['sub','Submission date','date'],['target','Target date','date'],['decision','Decision','sel',['Pending','Accepted','Rejected']],['rev','Revision','sel',['None','Minor','Major']],['apc','APC','sel',['Paid','Unpaid','No mandatory fee']],['site','Journal website','url'],['doc','Manuscript (link)','url'],['other','Other target journals and resubmission history','area']]},
+ books:{nav:'Books',one:'book proposal',st:'status',statuses:S_BOOK,meta:r=>(r.pubs||[]).map(p=>p.n).filter(Boolean).join(', '),
+  f:[['status','Proposal status','sel',S_BOOK],['sub','Subtitle','text'],['contact','Editorial contact','text'],['sent','Proposal submission date','date'],['doc','Proposal document (link)','url'],['contract','Contract','sel',['Not received','Offered','Signed']],['ms','Manuscript','sel',['Not started','In progress','Draft ready','Complete']],['corr','Correspondence (link)','url']]}
+};
+const NAV=[['dashboard','Dashboard','grid'],['projects','Research Projects','flask'],['patents','Patents','shield'],['conferences','Conferences','file'],['journals','Journals','pen'],['books','Books','book'],['timeline','Timeline','cal'],['archive','Notes & Archive','box']];
+const IC={grid:'M3 3h7v9H3z M14 3h7v5h-7z M14 12h7v9h-7z M3 16h7v5H3z',flask:'M10 3h4 M11 3v6l-5 9a2 2 0 0 0 2 3h8a2 2 0 0 0 2-3l-5-9V3',shield:'M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z',file:'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5 M9 13h6 M9 17h6',pen:'M12 20h9 M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z',book:'M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z M4 21V5',cal:'M8 3v4 M16 3v4 M4 9h16 M5 5h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z',box:'M3 7h18v4H3z M5 11v9h14v-9 M10 15h4',check:'M20 6 9 17l-5-5',clock:'M12 7v5l3 2 M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0',plus:'M12 5v14 M5 12h14',search:'M21 21l-4.3-4.3 M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14z',menu:'M4 6h16 M4 12h16 M4 18h16',down:'M12 3v12 M7 10l5 5 5-5 M5 21h14',up:'M12 21V9 M7 14l5-5 5 5 M5 3h14',sun:'M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z M12 1v2 M12 21v2 M4.2 4.2l1.4 1.4 M18.4 18.4l1.4 1.4 M1 12h2 M21 12h2 M4.2 19.8l1.4-1.4 M18.4 5.6l1.4-1.4',chev:'M6 9l6 6 6-6',award:'M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.2 14 7 22l5-3 5 3-1.2-8'};
+const ic=n=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${IC[n]}"/></svg>`;
+
+/* ---------- seed data ---------- */
+const SEED={prefs:{name:'Ria',theme:'dark'},sn:{},
+act:[{d:'2026-11',t:'Book proposal "Fashion AI" submitted to Wiley'},{d:'2026-11',t:'Velaris paper submitted to ICDSI (ID 391)'},{d:'2026-10',t:'WYA paper accepted at EDGEI 2026 (ID 379)'},{d:'2026-09',t:'Greywater patent approved by E-Cell'},{d:'2026-09',t:'Publication and patent plan set across nine projects'}],
+records:{
+projects:[
+{id:'p-wya',title:"WYA — What's Your Aesthetic",stage:'Submitted',repo:'https://github.com/ria0304/WYA-Whats-Your-Aesthetic',desc:'Full-stack fashion AI app: FashionCLIP on AWS SageMaker, FastAPI backend, React and TypeScript frontend, FAISS vector search.',next:'Journal version: AI-content and plagiarism checks',prog:'47 pytest tests, GitHub Actions CI/CD. Backend paused for cost management.'},
+{id:'p-tryon',title:'TryOn',stage:'Building',repo:'https://github.com/ria0304/TryOn',desc:'3D virtual garment try-on with React Three Fiber, FastAPI, FashionCLIP, MediaPipe BlazePose and thin-plate-spline warping.',next:'Fix garment alignment; ANTIC 2026 paper',prog:'Evaluation harness built: landmark alignment error, silhouette IoU, hem displacement. 106 backend tests.'},
+{id:'p-vel',title:'Velaris',stage:'Building',repo:'https://github.com/ria0304/Velaris-From-Inspiration-to-Jewellery-Design',desc:'AI jewellery design tool: sketch-to-geometry conversion and manufacturability scoring. React 19, TypeScript, FastAPI.',next:'IDF: a teacher still has to submit it'},
+{id:'p-ffg',title:'FairFaceGuard',stage:'Experiments',repo:'https://github.com/ria0304/glowing-guide',desc:'Causal analysis of deepfake-detector accuracy gaps across skin-tone subgroups: skin tone versus illumination confounds.',next:'Fix out-of-memory crash; 5-seed replication, Celeb-DF and backbone ablation',prog:'All pipeline stages run. Single-seed EfficientNet-B4 baseline on a Deepfakes-only FF++ subset.'},
+{id:'p-vg',title:'VisualGuard-LVLM',stage:'Writing',repo:'https://github.com/ria0304/VisualGuard-LVLM',desc:'Training-free decoding-time hallucination reduction for LVLMs (LLaVA-1.5), evaluated on POPE and MME.',next:'Conference paper (ICIPCN 2027)',prog:'Benchmarks run.'},
+{id:'p-btc',title:'Bitcoin Fraud Detection (ElliGAT)',stage:'Writing',repo:'https://github.com/ria0304/Bitcoin-Transaction-Fraud-Detection-',desc:'GATv2 graph neural network for fraud detection on the Elliptic dataset.',next:'Finish journal manuscript (about 75% done)',prog:'5 seeds: ElliGAT AUC 0.9468 ± 0.0054, F1 0.7925 ± 0.0104. MetaEnsemble AUC 0.9870, F1 0.8629.'},
+{id:'p-hd',title:'HydroDrive-DQN',stage:'Writing',repo:'https://github.com/ria0304/HydroDrive-DQN',desc:'Energy management for fuel-cell electric vehicles with a hydrogen supply chain.',next:'MARC 2027 submission'},
+{id:'p-fw',title:'FlowWrite',stage:'Building',desc:'AI text humanizer pipeline with a custom Human Likeness Score.',next:'Conference paper, later 2027'},
+{id:'p-lumen',title:'Lumen',stage:'Building',repo:'https://github.com/ria0304/lumen',desc:'32-bit x86 hobby OS in C and NASM: custom boot sector, kernel, LumenFS, Ring 3, RTL8139 driver. Runs in QEMU.'}],
+patents:[
+{id:'t-wya',title:'WYA',project:'p-wya',status:'Submitted',idf:'Completed',fee:'Paid',pub:'Pending',grant:'Not pursuing',inst:'Manipal University Jaipur (E-Cell)',notes:'Follow up on publication status and keep the payment acknowledgement.'},
+{id:'t-try',title:'TryOn',project:'p-tryon',status:'Submitted',inst:'Manipal University Jaipur (E-Cell)',notes:'Most patentable part: mesh-measurement-driven garment wrap correction.'},
+{id:'t-vel',title:'Velaris',project:'p-vel',status:'IDF pending',idf:'Pending',inst:'Manipal University Jaipur (E-Cell)',notes:'IDF document is done; a teacher still has to submit it. Candidate claims: sketch-to-geometry conversion, manufacturability scoring.'},
+{id:'t-gw',title:'Greywater',status:'Approved by E-Cell',inst:'Manipal University Jaipur (E-Cell)',notes:'Small issue with the teacher, expected to be fixed in October 2026.'}],
+conferences:[
+{id:'c-wya',title:'WYA — From Pixels to Wardrobe',project:'p-wya',status:'Accepted',paperId:'379',venue:'EDGEI 2026',site:'https://edgei.org',start:'2026-12-11',end:'2026-12-12',regDl:'2026-10-31',idx:'Springer LNNS, Scopus-indexed',notes:'Last known (Oct 2026): full paper accepted. Camera-ready, source file and payment proof were still to submit.'},
+{id:'c-ffg',title:'FairFaceGuard',project:'p-ffg',status:'Awaiting decision',paperId:'427',venue:'IMPACT26',site:'https://impact.bitmsra.ac.in',start:'2026-12-04',end:'2026-12-05'},
+{id:'c-try',title:'TryOn',project:'p-tryon',status:'Awaiting decision',paperId:'236',venue:'ANTIC 2026',site:'https://antic.co.in',start:'2026-12-21',end:'2026-12-23'},
+{id:'c-vel',title:'Velaris',project:'p-vel',status:'Awaiting decision',paperId:'391',venue:'ICDSI',site:'https://www.icdsi.co.in',start:'2027-02-04',end:'2027-02-05',subDl:'2026-11-08'},
+{id:'c-hd',title:'HydroDrive-DQN',project:'p-hd',status:'Submitted',paperId:'280',venue:'MARC 2027',site:'https://marc2027.srhu.edu.in',start:'2027-01-21',end:'2027-01-22',subDl:'2026-11-15',notes:'Confirm the final submission before the deadline.'},
+{id:'c-vg',title:'VisualGuard-LVLM',project:'p-vg',status:'Drafting',venue:'ICIPCN 2027',site:'https://icipcn.com/2027',start:'2027-01-21',end:'2027-01-23',subDl:'2026-10-29',notes:'Deadline was 29 Oct 2026. Update the status if it was submitted.'},
+{id:'c-fw',title:'FlowWrite',project:'p-fw',status:'Planned',notes:'Target: later 2027.'},
+{id:'c-ax',title:'ApexNet',status:'Planned',notes:'Target: later 2027.'}],
+journals:[
+{id:'j-wya',title:'WYA journal paper',project:'p-wya',status:'Internal review',notes:'Remaining: AI-content check and plagiarism check.'},
+{id:'j-btc',title:'Bitcoin fraud detection (ElliGAT)',project:'p-btc',status:'Drafting',notes:'About 75% done. Target: April 2027.'}],
+books:[
+{id:'b-fai',title:'Fashion AI',sub:'Intelligent Systems for Personalisation, Conversational Styling, Computational Jewellery Design and Virtual Try-On',status:'Submitted',contract:'Not received',ms:'Draft ready',pubs:[{n:'Wiley',s:'Submitted',a:'Received',x:'Awaiting editorial update'},{n:'Springer Nature',s:'Submitted',a:'',x:'Update acknowledgement status'}]}]}};
+
+/* ---------- state ---------- */
+let D,open=new Set(),flt={q:'',s:''},gq='',view='dashboard',storeOK=true,tm;
+const $=s=>document.querySelector(s);
+const e=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const now=()=>new Date().toISOString();
+const days=s=>Math.round((new Date(s+'T00:00:00')-new Date(new Date().toDateString()))/864e5);
+const fmt=s=>s.length===7?new Date(s+'-01T00:00:00').toLocaleDateString('en-GB',{month:'short',year:'numeric'}):new Date(s.slice(0,10)+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+const A=t=>D.records[t].filter(r=>!r.archived);
+const find=(t,id)=>D.records[t].find(r=>r.id===id);
+const pn=id=>(D.records.projects.find(p=>p.id===id)||{}).title||'';
+const tone=v=>/reject|withdrawn|abandon|not pursuing/i.test(v)?'bd':/accepted|published|paid|done|completed|received|signed|presented|registered|approved|complete|ready/i.test(v)?'ok':/awaiting|pending|review|submitted|revision|screening/i.test(v)?'wn':'';
+const badge=v=>v?`<span class="bg ${tone(v)}">${e(v)}</span>`:'';
+const safeUrl=u=>/^https?:\/\//i.test(u);
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x&&x.records)return fix(x)}catch(_){}return fix(structuredClone(SEED))}
+function fix(x){x.sn=x.sn||{};x.act=x.act||[];x.prefs=x.prefs||{name:'Ria',theme:'dark'};for(const t in SCHEMA)x.records[t]=x.records[t]||[];return x}
+function save(){D.saved=now();try{localStorage.setItem(KEY,JSON.stringify(D))}catch(_){storeOK=false;$('#warn').style.display='block'}stamp()}
+const saveSoon=()=>{clearTimeout(tm);tm=setTimeout(save,300)};
+function stamp(){$('#stamp').textContent=D.saved?'Last saved '+new Date(D.saved).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'Not saved yet'}
+function act(t,id){D.act.unshift({d:now(),t,id});D.act.length=Math.min(D.act.length,300)}
+function deadlines(){const L=[];
+ A('conferences').forEach(r=>[['subDl','Submission deadline'],['regDl','Registration deadline'],['start','Conference starts']].forEach(([k,l])=>r[k]&&L.push({d:r[k],t:`${l}: ${r.venue||r.title}`,id:r.id,ty:'conferences'})));
+ A('journals').forEach(r=>r.target&&L.push({d:r.target,t:`Target date: ${r.title}`,id:r.id,ty:'journals'}));
+ return L.sort((a,b)=>a.d.localeCompare(b.d))}
+
+/* ---------- views ---------- */
+const head=(h,x='')=>`<header class="ph"><h1>${h}</h1>${x}</header>`;
+const row=(t,r)=>`<button class="row" data-act="go" data-t="${t}" data-id="${r.id}"><span><b>${e(r.title)}</b><small>${SCHEMA[t].one}${r.archived?', archived':''}</small></span>${badge(r[SCHEMA[t].st])}</button>`;
+function dash(){
+ const P=A('projects'),C=A('conferences'),J=A('journals'),T=A('patents'),B=A('books');
+ const acc=C.filter(r=>/^(Accepted|Camera-ready sent|Registered|Presented|Published)$/.test(r.status)).length;
+ const wait=C.filter(r=>r.status==='Awaiting decision').length;
+ const jp=J.filter(r=>!/^(Published|Rejected)$/.test(r.status)).length;
+ const ts=T.filter(r=>!/^(|Idea \/ concept|Draft in preparation|IDF pending|IDF completed|Awaiting faculty signature|Ready for submission|Abandoned \/ withdrawn)$/.test(r.status)).length;
+ const bs=B.filter(r=>!/^(|Idea|Proposal in preparation)$/.test(r.status)).length;
+ const dl=deadlines().filter(x=>days(x.d)>=0),soon=dl.filter(x=>days(x.d)<=30).length;
+ const S=[['projects','flask','#3b82f6',P.length,'Research projects',''],['conferences','file','#d946ef',C.length,'Conference papers',''],['conferences','check','#22c55e',acc,'Accepted papers',''],['conferences','clock','#f97316',wait,'Awaiting decision',''],['journals','pen','#6366f1',jp,'Journals in progress',''],['patents','shield','#14b8a6',ts,'Patents submitted',`${T.length} tracked`],['books','book','#ec4899',bs,'Book proposals submitted',''],['timeline','cal','#eab308',soon,'Deadlines in 30 days','']];
+ const rec=[];for(const t in SCHEMA)A(t).forEach(r=>r.u&&rec.push([t,r]));rec.sort((a,b)=>b[1].u.localeCompare(a[1].u));
+ return `<section class="card hero"><div><h1>Welcome back, ${e(D.prefs.name)}</h1><p>${soon} deadline${soon===1?'':'s'} in the next 30 days. ${wait} paper${wait===1?'':'s'} awaiting a decision.</p></div><div class="logo">${ic('award')}</div></section>
+ <div class="stats">${S.map(s=>`<a class="card stat" href="#${s[0]}"><div class="si" style="background:${s[2]}">${ic(s[1])}</div><b>${s[3]}</b>${s[4]}${s[5]?`<br><small>${s[5]}</small>`:''}</a>`).join('')}</div>
+ <div class="two"><div>
+  <section class="card"><h2>Recent activity</h2>${D.act.slice(0,8).map(a=>`<div class="row"><span>${e(a.t)}</span><small>${fmt(a.d)}</small></div>`).join('')||'<p class="mu">Nothing yet.</p>'}</section>
+  <section class="card"><h2>Recently updated</h2>${rec.slice(0,5).map(([t,r])=>row(t,r)).join('')||'<p class="mu">Records you edit appear here.</p>'}</section></div>
+ <div><section class="card"><h2>Upcoming deadlines</h2>${dl.slice(0,8).map(x=>{const n=days(x.d);return `<button class="row" data-act="go" data-t="${x.ty}" data-id="${x.id}"><span><b>${e(x.t)}</b><small>${fmt(x.d)}</small></span><span class="${n<=7?'bd':n<=21?'wn':'ok'}"><small>${n===0?'Today':n===1?'Tomorrow':'in '+n+' days'}</small><i class="dot"></i></span></button>`}).join('')||'<p class="mu">Add dates to conferences and journals to see them here.</p>'}</section>
+  <section class="card"><h2>Quick actions</h2><div class="acts"><button class="btn" data-act="add" data-t="conferences">${ic('plus')} Conference paper</button><button class="btn" data-act="add" data-t="patents">${ic('plus')} Patent</button><button class="btn2" data-act="export">${ic('down')} Export backup</button></div></section></div></div>`}
+function ctl([k,l,ty,o],r){const v=r[k]||'';let c;
+ if(ty==='sel')c=`<select data-f="${k}"><option value="">—</option>${o.map(x=>`<option${x===v?' selected':''}>${e(x)}</option>`).join('')}</select>`;
+ else if(ty==='proj')c=`<select data-f="${k}"><option value="">—</option>${D.records.projects.map(p=>`<option value="${p.id}"${p.id===v?' selected':''}>${e(p.title)}</option>`).join('')}</select>`;
+ else if(ty==='area')c=`<textarea data-f="${k}" rows="3">${e(v)}</textarea>`;
+ else c=`<input data-f="${k}" type="${ty}" value="${e(v)}">`+(ty==='url'&&safeUrl(v)?`<a class="lk" href="${e(v)}" target="_blank" rel="noopener">Open link</a>`:'');
+ return `<label class="${ty==='area'?'w':''}"><span>${l}</span>${c}</label>`}
+function pubs(r){const o=(a,v)=>a.map(x=>`<option${x===v?' selected':''}>${x}</option>`).join('');
+ return `<div class="w"><span class="lb">Publishers (a proposal can go to several)</span>${(r.pubs||[]).map((p,i)=>`<div class="pr"><input data-pi="${i}" data-pf="n" placeholder="Publisher" aria-label="Publisher" value="${e(p.n)}"><select data-pi="${i}" data-pf="s" aria-label="Proposal status">${o(S_PUB,p.s)}</select><select data-pi="${i}" data-pf="a" aria-label="Acknowledgement"><option value="">Acknowledgement</option>${o(['Pending','Received'],p.a)}</select><input data-pi="${i}" data-pf="d" type="date" aria-label="Date" value="${e(p.d)}"><input data-pi="${i}" data-pf="x" placeholder="Note" aria-label="Note" value="${e(p.x)}"><button class="ic" data-act="rmpub" data-i="${i}" aria-label="Remove publisher">×</button></div>`).join('')}<button class="btn2" data-act="addpub">${ic('plus')} Add publisher</button></div>`}
+function card(t,r){const sc=SCHEMA[t],o=open.has(r.id),h=D.act.filter(a=>a.id===r.id).slice(0,4);
+ return `<article class="card rec" id="${r.id}" data-t="${t}" data-id="${r.id}"><div class="rh"><div><input class="tt" data-f="title" value="${e(r.title)}" aria-label="Title"><small>${e(sc.meta(r))}</small></div>${badge(r[sc.st])}<button class="ic" data-act="toggle" aria-expanded="${o}" aria-label="${o?'Collapse':'Expand'}">${ic('chev')}</button></div>
+ ${o?`<div class="fg">${sc.f.map(f=>ctl(f,r)).join('')}${t==='books'?pubs(r):''}
+ ${t==='projects'?linked(r):''}<label class="w"><span>My notes (saved automatically)</span><textarea data-f="notes" rows="4">${e(r.notes)}</textarea></label>
+ ${h.length?`<div class="w"><span class="lb">Status history</span><ul class="hist">${h.map(a=>`<li>${fmt(a.d)}: ${e(a.t)}</li>`).join('')}</ul></div>`:''}</div>
+ <div class="acts"><button class="btn2" data-act="archive">Archive</button><button class="btn2" data-act="del">Delete</button></div>`:''}</article>`}
+function linked(p){const L=[];for(const t of['patents','conferences','journals'])A(t).filter(r=>r.project===p.id).forEach(r=>L.push([t,r]));
+ return `<div class="w"><span class="lb">Linked patents, papers and journals</span>${L.map(([t,r])=>row(t,r)).join('')||'<small>None yet. Pick this project in a record to link it.</small>'}</div>`}
+function list(t){const q=flt.q.toLowerCase(),sc=SCHEMA[t];
+ const L=A(t).filter(r=>(!flt.s||r[sc.st]===flt.s)&&(!q||vals(r).includes(q)));
+ return L.map(r=>card(t,r)).join('')||'<p class="mu">No records match. Use the add button to create one.</p>'}
+const vals=r=>Object.values(r).map(v=>typeof v==='object'?JSON.stringify(v):v).join(' ').toLowerCase();
+function section(t){const sc=SCHEMA[t];
+ return head(sc.nav,`<button class="btn" data-act="add" data-t="${t}">${ic('plus')} Add ${sc.one}</button>`)+
+ `<div class="bar"><input id="fq" placeholder="Filter ${sc.nav.toLowerCase()}" aria-label="Filter" value="${e(flt.q)}"><select id="fs" aria-label="Status filter"><option value="">All statuses</option>${sc.statuses.map(s=>`<option${s===flt.s?' selected':''}>${s}</option>`).join('')}</select></div><div id="list">${list(t)}</div>
+ <section class="card"><h2>${sc.nav} notes</h2><textarea data-sn="${t}" aria-label="Section notes" placeholder="General observations and reminders">${e(D.sn[t]||'')}</textarea></section>`}
+function timeline(){const up=deadlines().filter(x=>days(x.d)>=0),g={};up.forEach(x=>(g[x.d.slice(0,7)]=g[x.d.slice(0,7)]||[]).push(x));
+ return head('Timeline')+`<div class="two"><section class="card"><h2>History</h2>${D.act.slice(0,80).map(a=>`<div class="row"><span>${e(a.t)}</span><small>${fmt(a.d)}</small></div>`).join('')||'<p class="mu">No history yet.</p>'}</section>
+ <section class="card"><h2>Upcoming</h2>${Object.keys(g).map(m=>`<span class="lb">${fmt(m)}</span>${g[m].map(x=>`<button class="row" data-act="go" data-t="${x.ty}" data-id="${x.id}"><span><b>${e(x.t)}</b></span><small>${fmt(x.d)}</small></button>`).join('')}`).join('')||'<p class="mu">No upcoming dates.</p>'}</section></div>`}
+function archive(){const Ar=[],N=[];for(const t in SCHEMA)D.records[t].forEach(r=>{if(r.archived)Ar.push([t,r]);else if(r.notes)N.push([t,r])});
+ return head('Notes & Archive')+`<section class="card"><h2>Archive</h2>${Ar.map(([t,r])=>`<div class="row rec" data-t="${t}" data-id="${r.id}"><span><b>${e(r.title)}</b><small>${SCHEMA[t].one}</small></span><span class="acts" style="margin:0"><button class="btn2" data-act="restore">Restore</button><button class="btn2" data-act="del">Delete</button></span></div>`).join('')||'<p class="mu">Completed or discontinued work you archive appears here.</p>'}</section>
+ <section class="card"><h2>All notes</h2>${Object.keys(SCHEMA).filter(t=>D.sn[t]).map(t=>`<div class="row"><span><b>${SCHEMA[t].nav} notes</b><pre>${e(D.sn[t])}</pre></span></div>`).join('')}${N.map(([t,r])=>`<button class="row" data-act="go" data-t="${t}" data-id="${r.id}"><span><b>${e(r.title)}</b><pre>${e(r.notes)}</pre></span></button>`).join('')||'<p class="mu">No record notes yet.</p>'}</section>`}
+function search(){const q=gq.toLowerCase(),o=[];for(const t in SCHEMA)D.records[t].forEach(r=>vals(r).includes(q)&&o.push(row(t,r)));
+ return head('Search results')+(o.length?`<section class="card">${o.join('')}</section>`:'<p class="mu">No matches.</p>')}
+function render(){view=location.hash.slice(1)||'dashboard';
+ $('#nav').innerHTML=NAV.map(n=>`<a href="#${n[0]}" class="${n[0]===view?'on':''}">${ic(n[2])}${n[1]}</a>`).join('');
+ $('#view').innerHTML=view==='search'?search():view==='dashboard'?dash():view==='timeline'?timeline():view==='archive'?archive():SCHEMA[view]?section(view):dash()}
+const keep=()=>{const y=scrollY;render();scrollTo(0,y)};
+function add(t){const r={id:t[0]+Date.now().toString(36),title:'Untitled',u:now()};if(t==='books')r.pubs=[];D.records[t].unshift(r);open.add(r.id);act(`Added ${SCHEMA[t].one}`,r.id);save();
+ if(view===t)keep();else location.hash=t}
+function download(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+const today=()=>new Date().toISOString().slice(0,10);
+
+/* ---------- events ---------- */
+document.addEventListener('input',ev=>{const t=ev.target;
+ if(t.tagName==='SELECT')return;
+ if(t.id==='fq'){flt.q=t.value;$('#list').innerHTML=list(view);return}
+ if(t.id==='gs'){gq=t.value;if(!gq){if(view==='search')location.hash='dashboard'}else if(view!=='search')location.hash='search';else render();return}
+ if(t.dataset.sn){D.sn[t.dataset.sn]=t.value;return saveSoon()}
+ const rc=t.closest('.rec');if(!rc)return;const r=find(rc.dataset.t,rc.dataset.id);
+ if(t.dataset.pi!==undefined)r.pubs[+t.dataset.pi][t.dataset.pf]=t.value;else if(t.dataset.f)r[t.dataset.f]=t.value;else return;
+ r.u=now();saveSoon()});
+document.addEventListener('change',ev=>{const t=ev.target;
+ if(t.id==='imp'){const f=t.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const x=JSON.parse(rd.result);if(!x.records||!Object.keys(SCHEMA).every(k=>Array.isArray(x.records[k])))throw 0;if(!confirm('Replace everything in this browser with the imported backup?'))return;D=fix(x);save();render()}catch(_){alert('That file is not a valid portfolio backup.')}};rd.readAsText(f);t.value='';return}
+ if(t.id==='fs'){flt.s=t.value;$('#list').innerHTML=list(view);return}
+ if(t.tagName!=='SELECT')return;const rc=t.closest('.rec');if(!rc)return;
+ const ty=rc.dataset.t,r=find(ty,rc.dataset.id);
+ if(t.dataset.pi!==undefined)r.pubs[+t.dataset.pi][t.dataset.pf]=t.value;
+ else{const k=t.dataset.f,fd=SCHEMA[ty].f.find(x=>x[0]===k),old=r[k]||'';r[k]=t.value;if(fd&&fd[2]==='sel')act(`${r.title}: ${fd[1]} ${old||'not set'} to ${t.value||'not set'}`,r.id)}
+ r.u=now();save();keep()});
+document.addEventListener('click',ev=>{const b=ev.target.closest('[data-act]');if(!b)return;
+ const a=b.dataset.act,rc=b.closest('.rec'),t=rc&&rc.dataset.t,r=rc&&find(t,rc.dataset.id);
+ if(a==='toggle'){open.has(r.id)?open.delete(r.id):open.add(r.id);keep()}
+ else if(a==='add')add(b.dataset.t);
+ else if(a==='archive'||a==='restore'){r.archived=a==='archive';r.u=now();act(`${r.title}: ${a==='archive'?'archived':'restored'}`,r.id);save();keep()}
+ else if(a==='del'){if(confirm('Delete this record permanently?')){D.records[t]=D.records[t].filter(x=>x!==r);save();keep()}}
+ else if(a==='addpub'){(r.pubs=r.pubs||[]).push({n:'',s:'Submitted'});save();keep()}
+ else if(a==='rmpub'){r.pubs.splice(+b.dataset.i,1);save();keep()}
+ else if(a==='go'){const x=find(b.dataset.t,b.dataset.id),h=x&&x.archived?'archive':b.dataset.t;open.add(b.dataset.id);if(location.hash.slice(1)===h)render();else location.hash=h;setTimeout(()=>{const el=document.getElementById(b.dataset.id);el&&el.scrollIntoView({block:'center'})},60)}
+ else if(a==='export')download(`research-portfolio-backup-${today()}.json`,JSON.stringify(D,null,2),'application/json');
+ else if(a==='import')$('#imp').click();
+ else if(a==='notes'){let s='# Research portfolio notes\n\n';for(const k in SCHEMA){if(D.sn[k])s+=`## ${SCHEMA[k].nav} (section notes)\n${D.sn[k]}\n\n`;D.records[k].filter(r=>r.notes).forEach(r=>s+=`## ${r.title} (${SCHEMA[k].one})\n${r.notes}\n\n`)}download(`research-notes-${today()}.md`,s,'text/markdown')}
+ else if(a==='theme'){D.prefs.theme=D.prefs.theme==='dark'?'light':'dark';theme();save()}
+ else if(a==='menu')document.body.classList.toggle('nav-open')});
+addEventListener('hashchange',()=>{flt={q:'',s:''};if(location.hash!=='#search'){gq='';$('#gs').value=''}document.body.classList.remove('nav-open');render();scrollTo(0,0)});
+function theme(){document.documentElement.dataset.theme=D.prefs.theme;document.querySelector('[data-act=theme]').innerHTML=ic('sun')+(D.prefs.theme==='dark'?'Light mode':'Dark mode')}
+
+/* ---------- init ---------- */
+D=load();
+$('#logo').innerHTML=ic('book');$('#si').innerHTML=ic('search');$('#mb').innerHTML=ic('menu');
+document.querySelector('[data-act=export]').innerHTML=ic('down')+'Export backup (JSON)';
+document.querySelector('[data-act=import]').innerHTML=ic('up')+'Import backup (JSON)';
+document.querySelector('[data-act=notes]').innerHTML=ic('file')+'Download notes';
+theme();stamp();render();
+try{if(!localStorage.getItem(KEY))save()}catch(_){$('#warn').style.display='block'}
+</script>
+</body>
+</html>
