@@ -1,6 +1,6 @@
 # Research Portfolio
 
-A personal, single-file tracker for my research projects, patents, conference papers, journals and book proposals. Open `research-portfolio.html` in any browser. No install, server or account is needed.
+A personal, single-file tracker for my research projects, patents, conference papers and journals . Open `research-portfolio.html` in any browser. No install, server or account is needed.
 
 ## What it tracks
 
