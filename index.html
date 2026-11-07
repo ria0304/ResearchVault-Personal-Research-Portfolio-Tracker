@@ -119,7 +119,7 @@ const ic=n=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${IC[n]}"/></s
 
 /* ---------- seed data ---------- */
 const SEED={prefs:{name:'Ria',theme:'dark'},sn:{},
-act:[{d:'2026-11',t:'Book proposal "Fashion AI" submitted to Wiley'},{d:'2026-11',t:'Velaris paper submitted to ICDSI (ID 391)'},{d:'2026-10',t:'WYA paper accepted at EDGEI 2026 (ID 379)'},{d:'2026-09',t:'Greywater patent approved by E-Cell'},{d:'2026-09',t:'Publication and patent plan set across nine projects'}],
+act:[{d:'2026-11',t:'Conference details updated: IDs, websites, deadlines and dates'},{d:'2026-11',t:'Book proposal "Fashion AI" submitted to Wiley'},{d:'2026-11',t:'Velaris paper submitted to ICDSI (ID 391)'},{d:'2026-10',t:'WYA paper accepted at EDGEI 2026 (ID 379)'},{d:'2026-09',t:'Greywater patent approved by E-Cell'},{d:'2026-09',t:'Publication and patent plan set across nine projects'}],
 records:{
 projects:[
 {id:'p-wya',title:"WYA — What's Your Aesthetic",stage:'Submitted',repo:'https://github.com/ria0304/WYA-Whats-Your-Aesthetic',desc:'Full-stack fashion AI app: FashionCLIP on AWS SageMaker, FastAPI backend, React and TypeScript frontend, FAISS vector search.',next:'Journal version: AI-content and plagiarism checks',prog:'47 pytest tests, GitHub Actions CI/CD. Backend paused for cost management.'},
@@ -137,12 +137,12 @@ patents:[
 {id:'t-vel',title:'Velaris',project:'p-vel',status:'IDF pending',idf:'Pending',inst:'Manipal University Jaipur (E-Cell)',notes:'IDF document is done; a teacher still has to submit it. Candidate claims: sketch-to-geometry conversion, manufacturability scoring.'},
 {id:'t-gw',title:'Greywater',status:'Approved by E-Cell',inst:'Manipal University Jaipur (E-Cell)',notes:'Small issue with the teacher, expected to be fixed in October 2026.'}],
 conferences:[
-{id:'c-wya',title:'WYA — From Pixels to Wardrobe',project:'p-wya',status:'Accepted',paperId:'379',venue:'EDGEI 2026',site:'https://edgei.org',start:'2026-12-11',end:'2026-12-12',regDl:'2026-10-31',idx:'Springer LNNS, Scopus-indexed',notes:'Last known (Oct 2026): full paper accepted. Camera-ready, source file and payment proof were still to submit.'},
-{id:'c-ffg',title:'FairFaceGuard',project:'p-ffg',status:'Awaiting decision',paperId:'427',venue:'IMPACT26',site:'https://impact.bitmsra.ac.in',start:'2026-12-04',end:'2026-12-05'},
-{id:'c-try',title:'TryOn',project:'p-tryon',status:'Awaiting decision',paperId:'236',venue:'ANTIC 2026',site:'https://antic.co.in',start:'2026-12-21',end:'2026-12-23'},
-{id:'c-vel',title:'Velaris',project:'p-vel',status:'Awaiting decision',paperId:'391',venue:'ICDSI',site:'https://www.icdsi.co.in',start:'2027-02-04',end:'2027-02-05',subDl:'2026-11-08'},
-{id:'c-hd',title:'HydroDrive-DQN',project:'p-hd',status:'Submitted',paperId:'280',venue:'MARC 2027',site:'https://marc2027.srhu.edu.in',start:'2027-01-21',end:'2027-01-22',subDl:'2026-11-15',notes:'Confirm the final submission before the deadline.'},
-{id:'c-vg',title:'VisualGuard-LVLM',project:'p-vg',status:'Drafting',venue:'ICIPCN 2027',site:'https://icipcn.com/2027',start:'2027-01-21',end:'2027-01-23',subDl:'2026-10-29',notes:'Deadline was 29 Oct 2026. Update the status if it was submitted.'},
+{id:'c-wya',title:'WYA — From Pixels to Wardrobe',project:'p-wya',status:'Accepted',paperId:'379',venue:'EDGEI 2026',site:'https://edgei.org/',start:'2026-12-11',end:'2026-12-12',regDl:'2026-10-31',idx:'Springer LNNS, Scopus-indexed',notes:'Last known (Oct 2026): full paper accepted. Camera-ready, source file and payment proof were still to submit.'},
+{id:'c-ffg',title:'FairFaceGuard',project:'p-ffg',status:'Awaiting decision',paperId:'427',venue:'IMPACT26',site:'https://impact.bitmsra.ac.in/',subDl:'2026-10-15',start:'2026-12-04',end:'2026-12-05'},
+{id:'c-try',title:'TryOn',project:'p-tryon',status:'Awaiting decision',paperId:'236',venue:'ANTIC 2026',site:'https://antic.co.in/',subDl:'2026-10-15',start:'2026-12-21',end:'2026-12-23'},
+{id:'c-vel',title:'Velaris',project:'p-vel',status:'Awaiting decision',paperId:'391',venue:'ICDSI',site:'https://www.icdsi.co.in/',start:'2027-02-04',end:'2027-02-05',subDl:'2026-11-08'},
+{id:'c-hd',title:'HydroDrive-DQN',project:'p-hd',status:'Submitted',paperId:'280',venue:'MARC 2027',site:'https://marc2027.srhu.edu.in/',start:'2027-01-21',end:'2027-01-22',subDl:'2026-11-15',notes:'Confirm the final submission before the deadline.'},
+{id:'c-vg',title:'VisualGuard-LVLM',project:'p-vg',status:'Drafting',venue:'ICIPCN 2027',site:'https://icipcn.com/2027/',start:'2027-01-21',end:'2027-01-23',subDl:'2026-10-29',notes:'Deadline was 29 Oct 2026. Update the status if it was submitted.'},
 {id:'c-fw',title:'FlowWrite',project:'p-fw',status:'Planned',notes:'Target: later 2027.'},
 {id:'c-ax',title:'ApexNet',status:'Planned',notes:'Target: later 2027.'}],
 journals:[
@@ -150,6 +150,16 @@ journals:[
 {id:'j-btc',title:'Bitcoin fraud detection (ElliGAT)',project:'p-btc',status:'Drafting',notes:'About 75% done. Target: April 2027.'}],
 books:[
 {id:'b-fai',title:'Fashion AI',sub:'Intelligent Systems for Personalisation, Conversational Styling, Computational Jewellery Design and Virtual Try-On',status:'Submitted',contract:'Not received',ms:'Draft ready',pubs:[{n:'Wiley',s:'Submitted',a:'Received',x:'Awaiting editorial update'},{n:'Springer Nature',s:'Submitted',a:'',x:'Update acknowledgement status'}]}]}};
+
+/* One-time patch for data already saved in the browser (Nov 2026 conference details) */
+const CPATCH={
+ 'c-wya':{paperId:'379',venue:'EDGEI 2026',site:'https://edgei.org/',start:'2026-12-11',end:'2026-12-12'},
+ 'c-ffg':{paperId:'427',venue:'IMPACT26',site:'https://impact.bitmsra.ac.in/',subDl:'2026-10-15',start:'2026-12-04',end:'2026-12-05'},
+ 'c-try':{paperId:'236',venue:'ANTIC 2026',site:'https://antic.co.in/',subDl:'2026-10-15',start:'2026-12-21',end:'2026-12-23'},
+ 'c-vg':{venue:'ICIPCN 2027',site:'https://icipcn.com/2027/',subDl:'2026-10-29',start:'2027-01-21',end:'2027-01-23'},
+ 'c-hd':{paperId:'280',venue:'MARC 2027',site:'https://marc2027.srhu.edu.in/',subDl:'2026-11-15',start:'2027-01-21',end:'2027-01-22'},
+ 'c-vel':{paperId:'391',venue:'ICDSI',site:'https://www.icdsi.co.in/',subDl:'2026-11-08',start:'2027-02-04',end:'2027-02-05'}
+};
 
 /* ---------- state ---------- */
 let D,open=new Set(),flt={q:'',s:''},gq='',view='dashboard',storeOK=true,tm;
@@ -166,7 +176,9 @@ const badge=v=>v?`<span class="bg ${tone(v)}">${e(v)}</span>`:'';
 const safeUrl=u=>/^https?:\/\//i.test(u);
 function load(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x&&x.records)return fix(x)}catch(_){}return fix(structuredClone(SEED))}
 const toItems=v=>String(v).split(/\n+/).map(q=>q.trim()).filter(Boolean).map(q=>({t:q,d:false}));
-function fix(x){x.sn=x.sn||{};x.act=x.act||[];x.prefs=x.prefs||{name:'Ria',theme:'dark'};for(const t in SCHEMA){x.records[t]=x.records[t]||[];x.records[t].forEach(r=>{if(r.notes){r.todo=(r.todo||[]).concat(toItems(r.notes));delete r.notes}});if(typeof x.sn[t]==='string')x.sn[t]=toItems(x.sn[t])}return x}
+function fix(x){x.sn=x.sn||{};x.act=x.act||[];x.prefs=x.prefs||{name:'Ria',theme:'dark'};for(const t in SCHEMA){x.records[t]=x.records[t]||[];x.records[t].forEach(r=>{if(r.notes){r.todo=(r.todo||[]).concat(toItems(r.notes));delete r.notes}});if(typeof x.sn[t]==='string')x.sn[t]=toItems(x.sn[t])}
+ if(!x.p2){x.p2=1;let n=0;for(const id in CPATCH){const r=x.records.conferences.find(q=>q.id===id);if(r){Object.assign(r,CPATCH[id]);r.u=now();n++}}if(n&&x.act.length)x.act.unshift({d:now(),t:'Conference details updated: IDs, websites, deadlines and dates'})}
+ return x}
 const fmtL=L=>L.map(x=>(x.d?'[x] ':'[ ] ')+x.t).join('\n');
 const chk=(L,id)=>{const n=L.filter(x=>x.d).length;return `<div class="w"><span class="lb">Checklist${L.length?` (${n} of ${L.length} done)`:''}</span>${L.map((x,i)=>`<div class="ci${x.d?' dn':''}"><input type="checkbox" data-ci="${i}"${x.d?' checked':''} aria-label="Done"><input class="ct" data-ct="${i}" value="${e(x.t)}" aria-label="Checklist item"><button class="ic" data-act="cdel" data-i="${i}" aria-label="Remove item">×</button></div>`).join('')}<div class="ci"><input id="cn-${id}" data-cn placeholder="Add an item, then press Enter" aria-label="New checklist item"><button class="btn2" data-act="cadd">${ic('plus')} Add</button></div></div>`};
 const lst=el=>{const rc=el.closest('.rec');if(rc){const r=find(rc.dataset.t,rc.dataset.id);return r.todo=r.todo||[]}const sc=el.closest('[data-sec]');return sc?(D.sn[sc.dataset.sec]=D.sn[sc.dataset.sec]||[]):[]};
@@ -289,7 +301,7 @@ document.querySelector('[data-act=export]').innerHTML=ic('down')+'Export backup 
 document.querySelector('[data-act=import]').innerHTML=ic('up')+'Import backup (JSON)';
 document.querySelector('[data-act=notes]').innerHTML=ic('file')+'Download checklists';
 theme();stamp();render();
-try{if(!localStorage.getItem(KEY))save()}catch(_){$('#warn').style.display='block'}
+try{if(!localStorage.getItem(KEY)||!JSON.parse(localStorage.getItem(KEY)).p2)save()}catch(_){$('#warn').style.display='block'}
 </script>
 </body>
 </html>
