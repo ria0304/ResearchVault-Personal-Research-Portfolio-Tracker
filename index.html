@@ -2,7 +2,6 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
- 
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Research Portfolio</title>
 <style>
@@ -61,6 +60,7 @@ textarea{resize:vertical;min-height:84px}.bar select{width:auto}
 label span,.lb{display:block;font-size:12.5px;color:var(--mu);margin-bottom:3px}
 .w{grid-column:1/-1}.lk{font-size:13px;color:var(--inf)}
 .pr{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr 1.4fr auto;gap:8px;margin-bottom:8px}
+.ci{display:flex;gap:8px;align-items:center;margin-bottom:6px}.ci input[type=checkbox]{width:18px;height:18px;padding:0;flex:none;accent-color:var(--ac)}.ci .ct{flex:1}.ci.dn .ct{text-decoration:line-through;color:var(--mu)}
 .acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 .hist{font-size:13px;color:var(--mu);margin:0;padding-left:18px}
 pre{white-space:pre-wrap;font:inherit;margin:4px 0 0;color:var(--mu)}
@@ -85,7 +85,7 @@ pre{white-space:pre-wrap;font:inherit;margin:4px 0 0;color:var(--mu)}
 </aside>
 <main>
  <div class="top"><button class="ic menu" data-act="menu" aria-label="Open menu" id="mb"></button>
-  <label class="sr"><span id="si"></span><input id="gs" type="search" placeholder="Search papers, patents, projects, notes" aria-label="Search everything"></label></div>
+  <label class="sr"><span id="si"></span><input id="gs" type="search" placeholder="Search papers, patents, projects, checklists" aria-label="Search everything"></label></div>
  <div id="warn">Browser storage is unavailable here, so changes will not persist. Use Export backup to keep them.</div>
  <div id="view"></div>
 </main>
@@ -165,7 +165,13 @@ const tone=v=>/reject|withdrawn|abandon|not pursuing/i.test(v)?'bd':/accepted|pu
 const badge=v=>v?`<span class="bg ${tone(v)}">${e(v)}</span>`:'';
 const safeUrl=u=>/^https?:\/\//i.test(u);
 function load(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x&&x.records)return fix(x)}catch(_){}return fix(structuredClone(SEED))}
-function fix(x){x.sn=x.sn||{};x.act=x.act||[];x.prefs=x.prefs||{name:'Ria',theme:'dark'};for(const t in SCHEMA)x.records[t]=x.records[t]||[];return x}
+const toItems=v=>String(v).split(/\n+/).map(q=>q.trim()).filter(Boolean).map(q=>({t:q,d:false}));
+function fix(x){x.sn=x.sn||{};x.act=x.act||[];x.prefs=x.prefs||{name:'Ria',theme:'dark'};for(const t in SCHEMA){x.records[t]=x.records[t]||[];x.records[t].forEach(r=>{if(r.notes){r.todo=(r.todo||[]).concat(toItems(r.notes));delete r.notes}});if(typeof x.sn[t]==='string')x.sn[t]=toItems(x.sn[t])}return x}
+const fmtL=L=>L.map(x=>(x.d?'[x] ':'[ ] ')+x.t).join('\n');
+const chk=(L,id)=>{const n=L.filter(x=>x.d).length;return `<div class="w"><span class="lb">Checklist${L.length?` (${n} of ${L.length} done)`:''}</span>${L.map((x,i)=>`<div class="ci${x.d?' dn':''}"><input type="checkbox" data-ci="${i}"${x.d?' checked':''} aria-label="Done"><input class="ct" data-ct="${i}" value="${e(x.t)}" aria-label="Checklist item"><button class="ic" data-act="cdel" data-i="${i}" aria-label="Remove item">×</button></div>`).join('')}<div class="ci"><input id="cn-${id}" data-cn placeholder="Add an item, then press Enter" aria-label="New checklist item"><button class="btn2" data-act="cadd">${ic('plus')} Add</button></div></div>`};
+const lst=el=>{const rc=el.closest('.rec');if(rc){const r=find(rc.dataset.t,rc.dataset.id);return r.todo=r.todo||[]}const sc=el.closest('[data-sec]');return sc?(D.sn[sc.dataset.sec]=D.sn[sc.dataset.sec]||[]):[]};
+const touch=el=>{const rc=el.closest('.rec');if(rc)find(rc.dataset.t,rc.dataset.id).u=now()};
+function addItem(inp){const v=inp.value.trim();if(!v)return;lst(inp).push({t:v,d:false});touch(inp);const id=inp.id;save();keep();const n=document.getElementById(id);if(n)n.focus()}
 function save(){D.saved=now();try{localStorage.setItem(KEY,JSON.stringify(D))}catch(_){storeOK=false;$('#warn').style.display='block'}stamp()}
 const saveSoon=()=>{clearTimeout(tm);tm=setTimeout(save,300)};
 function stamp(){$('#stamp').textContent=D.saved?'Last saved '+new Date(D.saved).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'Not saved yet'}
@@ -187,10 +193,12 @@ function dash(){
  const bs=B.filter(r=>!/^(|Idea|Proposal in preparation)$/.test(r.status)).length;
  const dl=deadlines().filter(x=>days(x.d)>=0),soon=dl.filter(x=>days(x.d)<=30).length;
  const S=[['projects','flask','#3b82f6',P.length,'Research projects',''],['conferences','file','#d946ef',C.length,'Conference papers',''],['conferences','check','#22c55e',acc,'Accepted papers',''],['conferences','clock','#f97316',wait,'Awaiting decision',''],['journals','pen','#6366f1',jp,'Journals in progress',''],['patents','shield','#14b8a6',ts,'Patents submitted',`${T.length} tracked`],['books','book','#ec4899',bs,'Book proposals submitted',''],['timeline','cal','#eab308',soon,'Deadlines in 30 days','']];
+ const td=[];for(const t in SCHEMA)A(t).forEach(r=>(r.todo||[]).forEach(x=>!x.d&&td.push([t,r,x])));
  const rec=[];for(const t in SCHEMA)A(t).forEach(r=>r.u&&rec.push([t,r]));rec.sort((a,b)=>b[1].u.localeCompare(a[1].u));
  return `<section class="card hero"><div><h1>Welcome back, ${e(D.prefs.name)}</h1><p>${soon} deadline${soon===1?'':'s'} in the next 30 days. ${wait} paper${wait===1?'':'s'} awaiting a decision.</p></div><div class="logo">${ic('award')}</div></section>
  <div class="stats">${S.map(s=>`<a class="card stat" href="#${s[0]}"><div class="si" style="background:${s[2]}">${ic(s[1])}</div><b>${s[3]}</b>${s[4]}${s[5]?`<br><small>${s[5]}</small>`:''}</a>`).join('')}</div>
  <div class="two"><div>
+  <section class="card"><h2>Open checklist items (${td.length})</h2>${td.slice(0,8).map(([t,r,x])=>`<button class="row" data-act="go" data-t="${t}" data-id="${r.id}"><span><b>${e(x.t)}</b><small>${e(r.title)}, ${SCHEMA[t].one}</small></span></button>`).join('')||'<p class="mu">Nothing open.</p>'}</section>
   <section class="card"><h2>Recent activity</h2>${D.act.slice(0,8).map(a=>`<div class="row"><span>${e(a.t)}</span><small>${fmt(a.d)}</small></div>`).join('')||'<p class="mu">Nothing yet.</p>'}</section>
   <section class="card"><h2>Recently updated</h2>${rec.slice(0,5).map(([t,r])=>row(t,r)).join('')||'<p class="mu">Records you edit appear here.</p>'}</section></div>
  <div><section class="card"><h2>Upcoming deadlines</h2>${dl.slice(0,8).map(x=>{const n=days(x.d);return `<button class="row" data-act="go" data-t="${x.ty}" data-id="${x.id}"><span><b>${e(x.t)}</b><small>${fmt(x.d)}</small></span><span class="${n<=7?'bd':n<=21?'wn':'ok'}"><small>${n===0?'Today':n===1?'Tomorrow':'in '+n+' days'}</small><i class="dot"></i></span></button>`}).join('')||'<p class="mu">Add dates to conferences and journals to see them here.</p>'}</section>
@@ -206,7 +214,7 @@ function pubs(r){const o=(a,v)=>a.map(x=>`<option${x===v?' selected':''}>${x}</o
 function card(t,r){const sc=SCHEMA[t],o=open.has(r.id),h=D.act.filter(a=>a.id===r.id).slice(0,4);
  return `<article class="card rec" id="${r.id}" data-t="${t}" data-id="${r.id}"><div class="rh"><div><input class="tt" data-f="title" value="${e(r.title)}" aria-label="Title"><small>${e(sc.meta(r))}</small></div>${badge(r[sc.st])}<button class="ic" data-act="toggle" aria-expanded="${o}" aria-label="${o?'Collapse':'Expand'}">${ic('chev')}</button></div>
  ${o?`<div class="fg">${sc.f.map(f=>ctl(f,r)).join('')}${t==='books'?pubs(r):''}
- ${t==='projects'?linked(r):''}<label class="w"><span>My notes (saved automatically)</span><textarea data-f="notes" rows="4">${e(r.notes)}</textarea></label>
+ ${t==='projects'?linked(r):''}${chk(r.todo||[],r.id)}
  ${h.length?`<div class="w"><span class="lb">Status history</span><ul class="hist">${h.map(a=>`<li>${fmt(a.d)}: ${e(a.t)}</li>`).join('')}</ul></div>`:''}</div>
  <div class="acts"><button class="btn2" data-act="archive">Archive</button><button class="btn2" data-act="del">Delete</button></div>`:''}</article>`}
 function linked(p){const L=[];for(const t of['patents','conferences','journals'])A(t).filter(r=>r.project===p.id).forEach(r=>L.push([t,r]));
@@ -218,13 +226,13 @@ const vals=r=>Object.values(r).map(v=>typeof v==='object'?JSON.stringify(v):v).j
 function section(t){const sc=SCHEMA[t];
  return head(sc.nav,`<button class="btn" data-act="add" data-t="${t}">${ic('plus')} Add ${sc.one}</button>`)+
  `<div class="bar"><input id="fq" placeholder="Filter ${sc.nav.toLowerCase()}" aria-label="Filter" value="${e(flt.q)}"><select id="fs" aria-label="Status filter"><option value="">All statuses</option>${sc.statuses.map(s=>`<option${s===flt.s?' selected':''}>${s}</option>`).join('')}</select></div><div id="list">${list(t)}</div>
- <section class="card"><h2>${sc.nav} notes</h2><textarea data-sn="${t}" aria-label="Section notes" placeholder="General observations and reminders">${e(D.sn[t]||'')}</textarea></section>`}
+ <section class="card" data-sec="${t}"><h2>${sc.nav} checklist</h2><div class="fg" style="margin-top:0">${chk(D.sn[t]||[],'sec-'+t)}</div></section>`}
 function timeline(){const up=deadlines().filter(x=>days(x.d)>=0),g={};up.forEach(x=>(g[x.d.slice(0,7)]=g[x.d.slice(0,7)]||[]).push(x));
  return head('Timeline')+`<div class="two"><section class="card"><h2>History</h2>${D.act.slice(0,80).map(a=>`<div class="row"><span>${e(a.t)}</span><small>${fmt(a.d)}</small></div>`).join('')||'<p class="mu">No history yet.</p>'}</section>
  <section class="card"><h2>Upcoming</h2>${Object.keys(g).map(m=>`<span class="lb">${fmt(m)}</span>${g[m].map(x=>`<button class="row" data-act="go" data-t="${x.ty}" data-id="${x.id}"><span><b>${e(x.t)}</b></span><small>${fmt(x.d)}</small></button>`).join('')}`).join('')||'<p class="mu">No upcoming dates.</p>'}</section></div>`}
-function archive(){const Ar=[],N=[];for(const t in SCHEMA)D.records[t].forEach(r=>{if(r.archived)Ar.push([t,r]);else if(r.notes)N.push([t,r])});
+function archive(){const Ar=[],N=[];for(const t in SCHEMA)D.records[t].forEach(r=>{if(r.archived)Ar.push([t,r]);else if((r.todo||[]).length)N.push([t,r])});
  return head('Notes & Archive')+`<section class="card"><h2>Archive</h2>${Ar.map(([t,r])=>`<div class="row rec" data-t="${t}" data-id="${r.id}"><span><b>${e(r.title)}</b><small>${SCHEMA[t].one}</small></span><span class="acts" style="margin:0"><button class="btn2" data-act="restore">Restore</button><button class="btn2" data-act="del">Delete</button></span></div>`).join('')||'<p class="mu">Completed or discontinued work you archive appears here.</p>'}</section>
- <section class="card"><h2>All notes</h2>${Object.keys(SCHEMA).filter(t=>D.sn[t]).map(t=>`<div class="row"><span><b>${SCHEMA[t].nav} notes</b><pre>${e(D.sn[t])}</pre></span></div>`).join('')}${N.map(([t,r])=>`<button class="row" data-act="go" data-t="${t}" data-id="${r.id}"><span><b>${e(r.title)}</b><pre>${e(r.notes)}</pre></span></button>`).join('')||'<p class="mu">No record notes yet.</p>'}</section>`}
+ <section class="card"><h2>All checklists</h2>${Object.keys(SCHEMA).filter(t=>(D.sn[t]||[]).length).map(t=>`<div class="row"><span><b>${SCHEMA[t].nav} checklist</b><pre>${e(fmtL(D.sn[t]))}</pre></span></div>`).join('')}${N.map(([t,r])=>`<button class="row" data-act="go" data-t="${t}" data-id="${r.id}"><span><b>${e(r.title)}</b><pre>${e(fmtL(r.todo))}</pre></span></button>`).join('')||'<p class="mu">No checklists yet.</p>'}</section>`}
 function search(){const q=gq.toLowerCase(),o=[];for(const t in SCHEMA)D.records[t].forEach(r=>vals(r).includes(q)&&o.push(row(t,r)));
  return head('Search results')+(o.length?`<section class="card">${o.join('')}</section>`:'<p class="mu">No matches.</p>')}
 function render(){view=location.hash.slice(1)||'dashboard';
@@ -241,13 +249,14 @@ document.addEventListener('input',ev=>{const t=ev.target;
  if(t.tagName==='SELECT')return;
  if(t.id==='fq'){flt.q=t.value;$('#list').innerHTML=list(view);return}
  if(t.id==='gs'){gq=t.value;if(!gq){if(view==='search')location.hash='dashboard'}else if(view!=='search')location.hash='search';else render();return}
- if(t.dataset.sn){D.sn[t.dataset.sn]=t.value;return saveSoon()}
+ if(t.dataset.ct!==undefined){lst(t)[+t.dataset.ct].t=t.value;touch(t);return saveSoon()}
  const rc=t.closest('.rec');if(!rc)return;const r=find(rc.dataset.t,rc.dataset.id);
  if(t.dataset.pi!==undefined)r.pubs[+t.dataset.pi][t.dataset.pf]=t.value;else if(t.dataset.f)r[t.dataset.f]=t.value;else return;
  r.u=now();saveSoon()});
 document.addEventListener('change',ev=>{const t=ev.target;
  if(t.id==='imp'){const f=t.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const x=JSON.parse(rd.result);if(!x.records||!Object.keys(SCHEMA).every(k=>Array.isArray(x.records[k])))throw 0;if(!confirm('Replace everything in this browser with the imported backup?'))return;D=fix(x);save();render()}catch(_){alert('That file is not a valid portfolio backup.')}};rd.readAsText(f);t.value='';return}
  if(t.id==='fs'){flt.s=t.value;$('#list').innerHTML=list(view);return}
+ if(t.dataset.ci!==undefined){const L=lst(t),it=L[+t.dataset.ci];it.d=t.checked;touch(t);const c=t.closest('.rec');if(c&&it.d){const r0=find(c.dataset.t,c.dataset.id);act(`${r0.title}: done, ${it.t}`,r0.id)}save();keep();return}
  if(t.tagName!=='SELECT')return;const rc=t.closest('.rec');if(!rc)return;
  const ty=rc.dataset.t,r=find(ty,rc.dataset.id);
  if(t.dataset.pi!==undefined)r.pubs[+t.dataset.pi][t.dataset.pf]=t.value;
@@ -262,11 +271,14 @@ document.addEventListener('click',ev=>{const b=ev.target.closest('[data-act]');i
  else if(a==='addpub'){(r.pubs=r.pubs||[]).push({n:'',s:'Submitted'});save();keep()}
  else if(a==='rmpub'){r.pubs.splice(+b.dataset.i,1);save();keep()}
  else if(a==='go'){const x=find(b.dataset.t,b.dataset.id),h=x&&x.archived?'archive':b.dataset.t;open.add(b.dataset.id);if(location.hash.slice(1)===h)render();else location.hash=h;setTimeout(()=>{const el=document.getElementById(b.dataset.id);el&&el.scrollIntoView({block:'center'})},60)}
+ else if(a==='cadd')addItem(b.parentElement.querySelector('[data-cn]'));
+ else if(a==='cdel'){lst(b).splice(+b.dataset.i,1);touch(b);save();keep()}
  else if(a==='export')download(`research-portfolio-backup-${today()}.json`,JSON.stringify(D,null,2),'application/json');
  else if(a==='import')$('#imp').click();
- else if(a==='notes'){let s='# Research portfolio notes\n\n';for(const k in SCHEMA){if(D.sn[k])s+=`## ${SCHEMA[k].nav} (section notes)\n${D.sn[k]}\n\n`;D.records[k].filter(r=>r.notes).forEach(r=>s+=`## ${r.title} (${SCHEMA[k].one})\n${r.notes}\n\n`)}download(`research-notes-${today()}.md`,s,'text/markdown')}
+ else if(a==='notes'){let s='# Research portfolio checklists\n\n';for(const k in SCHEMA){if((D.sn[k]||[]).length)s+=`## ${SCHEMA[k].nav} (section checklist)\n${fmtL(D.sn[k])}\n\n`;D.records[k].filter(r=>(r.todo||[]).length).forEach(r=>s+=`## ${r.title} (${SCHEMA[k].one})\n${fmtL(r.todo)}\n\n`)}download(`research-checklists-${today()}.md`,s,'text/markdown')}
  else if(a==='theme'){D.prefs.theme=D.prefs.theme==='dark'?'light':'dark';theme();save()}
  else if(a==='menu')document.body.classList.toggle('nav-open')});
+document.addEventListener('keydown',ev=>{const t=ev.target;if(ev.key==='Enter'&&t.dataset&&t.dataset.cn!==undefined){ev.preventDefault();addItem(t)}});
 addEventListener('hashchange',()=>{flt={q:'',s:''};if(location.hash!=='#search'){gq='';$('#gs').value=''}document.body.classList.remove('nav-open');render();scrollTo(0,0)});
 function theme(){document.documentElement.dataset.theme=D.prefs.theme;document.querySelector('[data-act=theme]').innerHTML=ic('sun')+(D.prefs.theme==='dark'?'Light mode':'Dark mode')}
 
@@ -275,7 +287,7 @@ D=load();
 $('#logo').innerHTML=ic('book');$('#si').innerHTML=ic('search');$('#mb').innerHTML=ic('menu');
 document.querySelector('[data-act=export]').innerHTML=ic('down')+'Export backup (JSON)';
 document.querySelector('[data-act=import]').innerHTML=ic('up')+'Import backup (JSON)';
-document.querySelector('[data-act=notes]').innerHTML=ic('file')+'Download notes';
+document.querySelector('[data-act=notes]').innerHTML=ic('file')+'Download checklists';
 theme();stamp();render();
 try{if(!localStorage.getItem(KEY))save()}catch(_){$('#warn').style.display='block'}
 </script>
