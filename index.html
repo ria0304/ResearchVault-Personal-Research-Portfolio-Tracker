@@ -98,9 +98,14 @@ const S_CONF=['Planned','Drafting','Submitted','Awaiting decision','Accepted','R
 const S_PAT=['Idea / concept','Draft in preparation','IDF pending','IDF completed','Awaiting faculty signature','Ready for submission','Submitted','Approved by E-Cell','Application number awaited','Fees pending','Fees paid','Publication pending','Published','Abandoned / withdrawn'];
 const S_JOU=['Research ongoing','Data collection','Experiments','Drafting','Internal review','Ready for submission','Submitted','Initial screening','Under review','Major revision','Minor revision','Accepted','Rejected','Published'];
 const S_BOOK=['Idea','Proposal in preparation','Submitted','Under review','Revision requested','Accepted','Rejected','Contract signed','Manuscript in progress','Published'];
-const S_PRJ=['Idea','Building','Experiments','Writing','Submitted','Done','Paused'];
+const S_PRJ=['Idea','Building','Experiments','Writing','Submitted','Awaiting decision','Done','Paused'];
 const S_PUB=['Submitted','Under review','Revision requested','Accepted','Rejected'];
 const PROG=['Not started','Pending','Done'];
+/* Statuses that still count as "not submitted yet" (these are the only ones that get submission/target deadlines) */
+const PRE_C=['','Planned','Drafting'];
+const PRE_J=['','Research ongoing','Data collection','Experiments','Drafting','Internal review','Ready for submission'];
+/* Statuses where a registration deadline is still actionable */
+const REG_C=['Accepted','Camera-ready sent'];
 const SCHEMA={
  projects:{nav:'Research Projects',one:'project',st:'stage',statuses:S_PRJ,meta:r=>(r.repo||'').replace('https://github.com/',''),
   f:[['stage','Stage','sel',S_PRJ],['next','Next milestone','text'],['repo','GitHub repository','url'],['desc','Description','area'],['obj','Research objectives','area'],['prog','Technical progress, experiments and results','area']]},
@@ -125,7 +130,7 @@ records:{
 projects:[
 {id:'p-wya',title:"WYA — What's Your Aesthetic",stage:'Submitted',repo:'https://github.com/ria0304/WYA-Whats-Your-Aesthetic',desc:'Full-stack fashion AI app: FashionCLIP on AWS SageMaker, FastAPI backend, React and TypeScript frontend, FAISS vector search.',next:'Journal version: AI-content and plagiarism checks',prog:'47 pytest tests, GitHub Actions CI/CD. Backend paused for cost management.'},
 {id:'p-tryon',title:'TryOn',stage:'Building',repo:'https://github.com/ria0304/TryOn',desc:'3D virtual garment try-on with React Three Fiber, FastAPI, FashionCLIP, MediaPipe BlazePose and thin-plate-spline warping.',next:'Fix garment alignment; ANTIC 2026 paper',prog:'Evaluation harness built: landmark alignment error, silhouette IoU, hem displacement. 106 backend tests.'},
-{id:'p-vel',title:'Velaris',stage:'Building',repo:'https://github.com/ria0304/Velaris-From-Inspiration-to-Jewellery-Design',desc:'AI jewellery design tool: sketch-to-geometry conversion and manufacturability scoring. React 19, TypeScript, FastAPI.',next:'IDF: a teacher still has to submit it'},
+{id:'p-vel',title:'Velaris',stage:'Awaiting decision',repo:'https://github.com/ria0304/Velaris-From-Inspiration-to-Jewellery-Design',desc:'AI jewellery design tool: sketch-to-geometry conversion and manufacturability scoring. React 19, TypeScript, FastAPI.',next:'IDF: a teacher still has to submit it'},
 {id:'p-ffg',title:'FairFaceGuard',stage:'Experiments',repo:'https://github.com/ria0304/glowing-guide',desc:'Causal analysis of deepfake-detector accuracy gaps across skin-tone subgroups: skin tone versus illumination confounds.',next:'Fix out-of-memory crash; 5-seed replication, Celeb-DF and backbone ablation',prog:'All pipeline stages run. Single-seed EfficientNet-B4 baseline on a Deepfakes-only FF++ subset.'},
 {id:'p-vg',title:'VisualGuard-LVLM',stage:'Writing',repo:'https://github.com/ria0304/VisualGuard-LVLM',desc:'Training-free decoding-time hallucination reduction for LVLMs (LLaVA-1.5), evaluated on POPE and MME.',next:'Conference paper (ICIPCN 2027)',prog:'Benchmarks run.'},
 {id:'p-btc',title:'Bitcoin Fraud Detection (ElliGAT)',stage:'Writing',repo:'https://github.com/ria0304/Bitcoin-Transaction-Fraud-Detection-',desc:'GATv2 graph neural network for fraud detection on the Elliptic dataset.',next:'Finish journal manuscript (about 75% done)',prog:'5 seeds: ElliGAT AUC 0.9468 ± 0.0054, F1 0.7925 ± 0.0104. MetaEnsemble AUC 0.9870, F1 0.8629.'},
@@ -137,12 +142,12 @@ patents:[
 {id:'t-vel',title:'Velaris',project:'p-vel',status:'IDF pending',idf:'Pending',inst:'Manipal University Jaipur (E-Cell)',notes:'IDF document is done; a teacher still has to submit it. Candidate claims: sketch-to-geometry conversion, manufacturability scoring.'},
 {id:'t-gw',title:'Greywater',status:'Approved by E-Cell',inst:'Manipal University Jaipur (E-Cell)',notes:'Small issue with the teacher, expected to be fixed in October 2026.'}],
 conferences:[
-{id:'c-wya',title:'WYA — From Pixels to Wardrobe',project:'p-wya',status:'Accepted',paperId:'379',venue:'EDGEI 2026',site:'https://edgei.org/',start:'2026-12-11',end:'2026-12-12',regDl:'2026-10-31',idx:'Springer LNNS, Scopus-indexed',notes:'Last known (Oct 2026): full paper accepted. Camera-ready, source file and payment proof were still to submit.'},
-{id:'c-ffg',title:'FairFaceGuard',project:'p-ffg',status:'Awaiting decision',paperId:'427',venue:'IMPACT26',site:'https://impact.bitmsra.ac.in/',subDl:'2026-10-15',start:'2026-12-04',end:'2026-12-05'},
+{id:'c-wya',title:'WYA — From Pixels to Wardrobe',project:'p-wya',status:'Registered',reg:'Done',paperId:'379',venue:'EDGEI 2026',site:'https://edgei.org/',start:'2026-12-11',end:'2026-12-12',regDl:'2026-10-31',idx:'Springer LNNS, Scopus-indexed',notes:'Last known (Oct 2026): full paper accepted. Camera-ready, source file and payment proof were still to submit.'},
+{id:'c-ffg',title:'FairFaceGuard',project:'p-ffg',status:'Registered',reg:'Done',paperId:'427',venue:'IMPACT26',site:'https://impact.bitmsra.ac.in/',subDl:'2026-10-15',start:'2026-12-04',end:'2026-12-05'},
 {id:'c-try',title:'TryOn',project:'p-tryon',status:'Awaiting decision',paperId:'236',venue:'ANTIC 2026',site:'https://antic.co.in/',subDl:'2026-10-15',start:'2026-12-21',end:'2026-12-23'},
-{id:'c-vel',title:'Velaris',project:'p-vel',status:'Awaiting decision',paperId:'391',venue:'ICDSI',site:'https://www.icdsi.co.in/',start:'2027-02-04',end:'2027-02-05',subDl:'2026-11-08'},
-{id:'c-hd',title:'HydroDrive-DQN',project:'p-hd',status:'Submitted',paperId:'280',venue:'MARC 2027',site:'https://marc2027.srhu.edu.in/',start:'2027-01-21',end:'2027-01-22',subDl:'2026-11-15',notes:'Confirm the final submission before the deadline.'},
-{id:'c-vg',title:'VisualGuard-LVLM',project:'p-vg',status:'Drafting',venue:'ICIPCN 2027',site:'https://icipcn.com/2027/',start:'2027-01-21',end:'2027-01-23',subDl:'2026-10-29',notes:'Deadline was 29 Oct 2026. Update the status if it was submitted.'},
+{id:'c-vel',title:'Velaris',project:'p-vel',status:'Awaiting decision',paperId:'391',venue:'ICDSI',site:'https://www.icdsi.co.in/',start:'2027-02-04',end:'2027-02-05',subDl:'2026-11-08',sub:'2026-11-08'},
+{id:'c-hd',title:'HydroDrive-DQN',project:'p-hd',status:'Awaiting decision',paperId:'280',venue:'MARC 2027',site:'https://marc2027.srhu.edu.in/',start:'2027-01-21',end:'2027-01-22',subDl:'2026-11-15',notes:'Confirm the final submission before the deadline.'},
+{id:'c-vg',title:'VisualGuard-LVLM',project:'p-vg',status:'Awaiting decision',venue:'ICIPCN 2027',site:'https://icipcn.com/2027/',start:'2027-01-21',end:'2027-01-23',subDl:'2026-10-29'},
 {id:'c-ax',title:'ApexNet',status:'Planned',notes:'Target: later 2027.'}],
 journals:[
 {id:'j-wya',title:'WYA journal paper',project:'p-wya',status:'Internal review',notes:'Remaining: AI-content check and plagiarism check.'},
@@ -178,6 +183,11 @@ const toItems=v=>String(v).split(/\n+/).map(q=>q.trim()).filter(Boolean).map(q=>
 function fix(x){x.sn=x.sn||{};x.act=x.act||[];x.prefs=x.prefs||{name:'Ria',theme:'dark'};for(const t in SCHEMA){x.records[t]=x.records[t]||[];x.records[t].forEach(r=>{if(r.notes){r.todo=(r.todo||[]).concat(toItems(r.notes));delete r.notes}});if(typeof x.sn[t]==='string')x.sn[t]=toItems(x.sn[t])}
  if(!x.p2){x.p2=1;let n=0;for(const id in CPATCH){const r=x.records.conferences.find(q=>q.id===id);if(r){Object.assign(r,CPATCH[id]);r.u=now();n++}}if(n&&x.act.length)x.act.unshift({d:now(),t:'Conference details updated: IDs, websites, deadlines and dates'})}
  if(!x.p3){x.p3=1;x.records.projects=x.records.projects.filter(r=>r.id!=='p-fw');x.records.conferences=x.records.conferences.filter(r=>r.id!=='c-fw')}
+ if(!x.p4){x.p4=1;const r=x.records.conferences.find(q=>q.id==='c-hd');if(r&&r.status==='Submitted'){r.status='Awaiting decision';r.u=now()}}
+ if(!x.p5){x.p5=1;for(const id of['c-wya','c-ffg']){const r=x.records.conferences.find(q=>q.id===id);if(r){r.status='Registered';r.reg='Done';r.u=now()}}}
+ if(!x.p6){x.p6=1;const r=x.records.conferences.find(q=>q.id==='c-vg');if(r&&/^(Planned|Drafting)$/.test(r.status)){r.status='Awaiting decision';r.u=now()}}
+ if(!x.p7){x.p7=1;const p=x.records.projects.find(q=>q.id==='p-vel');if(p){p.stage='Submitted';p.u=now()}const c=x.records.conferences.find(q=>q.id==='c-vel');if(c){c.status='Awaiting decision';c.paperId='391';c.venue='ICDSI';c.site='https://www.icdsi.co.in/';c.subDl='2026-11-08';c.sub=c.sub||'2026-11-08';c.start='2027-02-04';c.end='2027-02-05';c.u=now()}}
+ if(!x.p8){x.p8=1;const p=x.records.projects.find(q=>q.id==='p-vel');if(p&&/^(Building|Submitted)$/.test(p.stage)){p.stage='Awaiting decision';p.u=now()}}
  return x}
 const fmtL=L=>L.map(x=>(x.d?'[x] ':'[ ] ')+x.t).join('\n');
 const chk=(L,id)=>{const n=L.filter(x=>x.d).length;return `<div class="w"><span class="lb">Checklist${L.length?` (${n} of ${L.length} done)`:''}</span>${L.map((x,i)=>`<div class="ci${x.d?' dn':''}"><input type="checkbox" data-ci="${i}"${x.d?' checked':''} aria-label="Done"><input class="ct" data-ct="${i}" value="${e(x.t)}" aria-label="Checklist item"><button class="ic" data-act="cdel" data-i="${i}" aria-label="Remove item">×</button></div>`).join('')}<div class="ci"><input id="cn-${id}" data-cn placeholder="Add an item, then press Enter" aria-label="New checklist item"><button class="btn2" data-act="cadd">${ic('plus')} Add</button></div></div>`};
@@ -188,10 +198,21 @@ function save(){D.saved=now();try{localStorage.setItem(KEY,JSON.stringify(D))}ca
 const saveSoon=()=>{clearTimeout(tm);tm=setTimeout(save,300)};
 function stamp(){$('#stamp').textContent=D.saved?'Last saved '+new Date(D.saved).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'Not saved yet'}
 function act(t,id){D.act.unshift({d:now(),t,id});D.act.length=Math.min(D.act.length,300)}
+
+/* Deadlines = only things still to be done:
+   - conference submission deadline: only while the paper is not submitted yet (Planned / Drafting)
+   - conference registration deadline: only once accepted and registration is not marked Done
+   - journal target date: only while the manuscript is not submitted yet
+   Conference start dates are events, not deadlines; they appear on the Timeline only. */
 function deadlines(){const L=[];
- A('conferences').forEach(r=>[['subDl','Submission deadline'],['regDl','Registration deadline'],['start','Conference starts']].forEach(([k,l])=>r[k]&&L.push({d:r[k],t:`${l}: ${r.venue||r.title}`,id:r.id,ty:'conferences'})));
- A('journals').forEach(r=>r.target&&L.push({d:r.target,t:`Target date: ${r.title}`,id:r.id,ty:'journals'}));
+ A('conferences').forEach(r=>{
+  if(r.subDl&&PRE_C.includes(r.status||''))L.push({d:r.subDl,t:`Submission deadline: ${r.venue||r.title}`,id:r.id,ty:'conferences'});
+  if(r.regDl&&REG_C.includes(r.status)&&r.reg!=='Done')L.push({d:r.regDl,t:`Registration deadline: ${r.venue||r.title}`,id:r.id,ty:'conferences'})});
+ A('journals').forEach(r=>r.target&&PRE_J.includes(r.status||'')&&L.push({d:r.target,t:`Target date: ${r.title}`,id:r.id,ty:'journals'}));
  return L.sort((a,b)=>a.d.localeCompare(b.d))}
+function events(){const L=[];
+ A('conferences').forEach(r=>r.start&&!/^(Rejected|Withdrawn)$/.test(r.status)&&L.push({d:r.start,t:`Conference starts: ${r.venue||r.title}`,id:r.id,ty:'conferences'}));
+ return L}
 
 /* ---------- views ---------- */
 const head=(h,x='')=>`<header class="ph"><h1>${h}</h1>${x}</header>`;
@@ -213,7 +234,7 @@ function dash(){
   <section class="card"><h2>Open checklist items (${td.length})</h2>${td.slice(0,8).map(([t,r,x])=>`<button class="row" data-act="go" data-t="${t}" data-id="${r.id}"><span><b>${e(x.t)}</b><small>${e(r.title)}, ${SCHEMA[t].one}</small></span></button>`).join('')||'<p class="mu">Nothing open.</p>'}</section>
   <section class="card"><h2>Recent activity</h2>${D.act.slice(0,8).map(a=>`<div class="row"><span>${e(a.t)}</span><small>${fmt(a.d)}</small></div>`).join('')||'<p class="mu">Nothing yet.</p>'}</section>
   <section class="card"><h2>Recently updated</h2>${rec.slice(0,5).map(([t,r])=>row(t,r)).join('')||'<p class="mu">Records you edit appear here.</p>'}</section></div>
- <div><section class="card"><h2>Upcoming deadlines</h2>${dl.slice(0,8).map(x=>{const n=days(x.d);return `<button class="row" data-act="go" data-t="${x.ty}" data-id="${x.id}"><span><b>${e(x.t)}</b><small>${fmt(x.d)}</small></span><span class="${n<=7?'bd':n<=21?'wn':'ok'}"><small>${n===0?'Today':n===1?'Tomorrow':'in '+n+' days'}</small><i class="dot"></i></span></button>`}).join('')||'<p class="mu">Add dates to conferences and journals to see them here.</p>'}</section>
+ <div><section class="card"><h2>Upcoming deadlines</h2>${dl.slice(0,8).map(x=>{const n=days(x.d);return `<button class="row" data-act="go" data-t="${x.ty}" data-id="${x.id}"><span><b>${e(x.t)}</b><small>${fmt(x.d)}</small></span><span class="${n<=7?'bd':n<=21?'wn':'ok'}"><small>${n===0?'Today':n===1?'Tomorrow':'in '+n+' days'}</small><i class="dot"></i></span></button>`}).join('')||'<p class="mu">No pending deadlines. Items that are already submitted do not appear here.</p>'}</section>
   <section class="card"><h2>Quick actions</h2><div class="acts"><button class="btn" data-act="add" data-t="conferences">${ic('plus')} Conference paper</button><button class="btn" data-act="add" data-t="patents">${ic('plus')} Patent</button><button class="btn2" data-act="export">${ic('down')} Export backup</button></div></section></div></div>`}
 function ctl([k,l,ty,o],r){const v=r[k]||'';let c;
  if(ty==='sel')c=`<select data-f="${k}"><option value="">—</option>${o.map(x=>`<option${x===v?' selected':''}>${e(x)}</option>`).join('')}</select>`;
@@ -239,9 +260,13 @@ function section(t){const sc=SCHEMA[t];
  return head(sc.nav,`<button class="btn" data-act="add" data-t="${t}">${ic('plus')} Add ${sc.one}</button>`)+
  `<div class="bar"><input id="fq" placeholder="Filter ${sc.nav.toLowerCase()}" aria-label="Filter" value="${e(flt.q)}"><select id="fs" aria-label="Status filter"><option value="">All statuses</option>${sc.statuses.map(s=>`<option${s===flt.s?' selected':''}>${s}</option>`).join('')}</select></div><div id="list">${list(t)}</div>
  <section class="card" data-sec="${t}"><h2>${sc.nav} checklist</h2><div class="fg" style="margin-top:0">${chk(D.sn[t]||[],'sec-'+t)}</div></section>`}
-function timeline(){const up=deadlines().filter(x=>days(x.d)>=0),g={};up.forEach(x=>(g[x.d.slice(0,7)]=g[x.d.slice(0,7)]||[]).push(x));
- return head('Timeline')+`<div class="two"><section class="card"><h2>History</h2>${D.act.slice(0,80).map(a=>`<div class="row"><span>${e(a.t)}</span><small>${fmt(a.d)}</small></div>`).join('')||'<p class="mu">No history yet.</p>'}</section>
- <section class="card"><h2>Upcoming</h2>${Object.keys(g).map(m=>`<span class="lb">${fmt(m)}</span>${g[m].map(x=>`<button class="row" data-act="go" data-t="${x.ty}" data-id="${x.id}"><span><b>${e(x.t)}</b></span><small>${fmt(x.d)}</small></button>`).join('')}`).join('')||'<p class="mu">No upcoming dates.</p>'}</section></div>`}
+function notifs(){const L=[];
+ A('conferences').forEach(r=>r.dec&&/^(Submitted|Awaiting decision)$/.test(r.status)&&L.push({d:r.dec,t:`Acceptance notification: ${r.venue||r.title}`,id:r.id,ty:'conferences'}));
+ return L}
+function timeline(){
+ const grp=(title,L,empty)=>{L=L.filter(x=>days(x.d)>=0).sort((a,b)=>a.d.localeCompare(b.d));
+  return `<section class="card"><h2>${title}</h2>${L.map(x=>{const n=days(x.d);return `<button class="row" data-act="go" data-t="${x.ty}" data-id="${x.id}"><span><b>${e(x.t)}</b><small>${fmt(x.d)}</small></span><small>${n===0?'Today':n===1?'Tomorrow':'in '+n+' days'}</small></button>`}).join('')||`<p class="mu">${empty}</p>`}</section>`};
+ return head('Timeline')+grp('Upcoming: acceptance notifications',notifs(),'No pending notification dates. Set the Acceptance notification date on a submitted paper to see it here.')+grp('Upcoming: conference starts',events(),'No upcoming conferences.')}
 function archive(){const Ar=[],N=[];for(const t in SCHEMA)D.records[t].forEach(r=>{if(r.archived)Ar.push([t,r]);else if((r.todo||[]).length)N.push([t,r])});
  return head('Notes & Archive')+`<section class="card"><h2>Archive</h2>${Ar.map(([t,r])=>`<div class="row rec" data-t="${t}" data-id="${r.id}"><span><b>${e(r.title)}</b><small>${SCHEMA[t].one}</small></span><span class="acts" style="margin:0"><button class="btn2" data-act="restore">Restore</button><button class="btn2" data-act="del">Delete</button></span></div>`).join('')||'<p class="mu">Completed or discontinued work you archive appears here.</p>'}</section>
  <section class="card"><h2>All checklists</h2>${Object.keys(SCHEMA).filter(t=>(D.sn[t]||[]).length).map(t=>`<div class="row"><span><b>${SCHEMA[t].nav} checklist</b><pre>${e(fmtL(D.sn[t]))}</pre></span></div>`).join('')}${N.map(([t,r])=>`<button class="row" data-act="go" data-t="${t}" data-id="${r.id}"><span><b>${e(r.title)}</b><pre>${e(fmtL(r.todo))}</pre></span></button>`).join('')||'<p class="mu">No checklists yet.</p>'}</section>`}
@@ -302,7 +327,7 @@ document.querySelector('[data-act=export]').innerHTML=ic('down')+'Export backup 
 document.querySelector('[data-act=import]').innerHTML=ic('up')+'Import backup (JSON)';
 document.querySelector('[data-act=notes]').innerHTML=ic('file')+'Download checklists';
 theme();stamp();render();
-try{if(!localStorage.getItem(KEY)||!JSON.parse(localStorage.getItem(KEY)).p3)save()}catch(_){$('#warn').style.display='block'}
+try{if(!localStorage.getItem(KEY)||!JSON.parse(localStorage.getItem(KEY)).p8)save()}catch(_){$('#warn').style.display='block'}
 </script>
 </body>
 </html>
