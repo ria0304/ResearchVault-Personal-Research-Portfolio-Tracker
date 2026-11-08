@@ -48,11 +48,6 @@ Data is stored in your browser's `localStorage` under the key `research-portfoli
 
 This is a personal tool with a single user: me. There are no accounts, no sharing features and no server. Keep the file and any exported backups private, since they contain unpublished work, paper IDs and patent details.
 
-## Editing the starting data
-
-Starting records live in the `SEED` object inside the `<script>` block of `research-portfolio.html`. It is only used when a browser has no saved data.
-
-To change data that is already saved in a browser, edit it in the app. Alternatively, add a one-time patch like the `CPATCH` block and the `p2` and `p3` checks in the `fix()` function, which update or remove records when the file is next opened.
 
 ## Files
 
