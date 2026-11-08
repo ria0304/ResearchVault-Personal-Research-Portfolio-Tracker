@@ -6,7 +6,6 @@
 <title>Research Portfolio</title>
 <style>
 :root{--bg1:#1b1036;--bg2:#3a1b6b;--card:rgba(255,255,255,.06);--line:rgba(255,255,255,.13);--tx:#f3eefc;--mu:#bfb4d9;--ac:#4f7cf3;--in:rgba(10,5,30,.4);--ok:#4ade80;--wn:#fbbf24;--bd:#f87171;--inf:#93a8ff;--sb:rgba(12,6,32,.5)}
-[data-theme=light]{--bg1:#f4f0fc;--bg2:#e4d9f8;--card:#fff;--line:#d6cbef;--tx:#241743;--mu:#5f5580;--ac:#3f66e0;--in:#f7f4fd;--ok:#15803d;--wn:#a16207;--bd:#b91c1c;--inf:#3f4fc9;--sb:rgba(255,255,255,.75)}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--tx);background:linear-gradient(135deg,var(--bg1),var(--bg2)) fixed}
 svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
@@ -79,7 +78,6 @@ pre{white-space:pre-wrap;font:inherit;margin:4px 0 0;color:var(--mu)}
  <button class="nb" data-act="export"></button>
  <button class="nb" data-act="import"></button>
  <button class="nb" data-act="notes"></button>
- <button class="nb" data-act="theme"></button>
  <input type="file" id="imp" accept="application/json" hidden>
  <div class="foot"><small id="stamp"></small></div>
 </aside>
@@ -105,7 +103,7 @@ const PROG=['Not started','Pending','Done'];
 const PRE_C=['','Planned','Drafting'];
 const PRE_J=['','Research ongoing','Data collection','Experiments','Drafting','Internal review','Ready for submission'];
 /* Statuses where a registration deadline is still actionable */
-const PRE_P=['','Idea / concept','Draft in preparation','IDF pending','Awaiting faculty signature','Ready for submission'];
+const PRE_P=['','Idea / concept','Draft in preparation','IDF pending','IDF completed','Awaiting faculty signature','Ready for submission'];
 const REG_C=['Accepted','Camera-ready sent'];
 const SCHEMA={
  projects:{nav:'Research Projects',one:'project',st:'stage',statuses:S_PRJ,meta:r=>(r.repo||'').replace('https://github.com/',''),
@@ -211,7 +209,7 @@ function deadlines(){const L=[];
  A('conferences').forEach(r=>{
   if(r.subDl&&PRE_C.includes(r.status||''))L.push({d:r.subDl,t:`Submission deadline: ${r.venue||r.title}`,id:r.id,ty:'conferences'});
   if(r.regDl&&REG_C.includes(r.status)&&r.reg!=='Done')L.push({d:r.regDl,t:`Registration deadline: ${r.venue||r.title}`,id:r.id,ty:'conferences'})});
- A('patents').forEach(r=>r.idfDl&&r.idf!=='Completed'&&PRE_P.includes(r.status||'')&&L.push({d:r.idfDl,t:`IDF submission deadline: ${r.title}`,id:r.id,ty:'patents'}));
+ A('patents').forEach(r=>r.idfDl&&PRE_P.includes(r.status||'')&&L.push({d:r.idfDl,t:`IDF submission deadline: ${r.title}`,id:r.id,ty:'patents'}));
  A('journals').forEach(r=>r.target&&PRE_J.includes(r.status||'')&&L.push({d:r.target,t:`Target date: ${r.title}`,id:r.id,ty:'journals'}));
  return L.sort((a,b)=>a.d.localeCompare(b.d))}
 function events(){const L=[];
@@ -318,11 +316,10 @@ document.addEventListener('click',ev=>{const b=ev.target.closest('[data-act]');i
  else if(a==='export')download(`research-portfolio-backup-${today()}.json`,JSON.stringify(D,null,2),'application/json');
  else if(a==='import')$('#imp').click();
  else if(a==='notes'){let s='# Research portfolio checklists\n\n';for(const k in SCHEMA){if((D.sn[k]||[]).length)s+=`## ${SCHEMA[k].nav} (section checklist)\n${fmtL(D.sn[k])}\n\n`;D.records[k].filter(r=>(r.todo||[]).length).forEach(r=>s+=`## ${r.title} (${SCHEMA[k].one})\n${fmtL(r.todo)}\n\n`)}download(`research-checklists-${today()}.md`,s,'text/markdown')}
- else if(a==='theme'){D.prefs.theme=D.prefs.theme==='dark'?'light':'dark';theme();save()}
  else if(a==='menu')document.body.classList.toggle('nav-open')});
 document.addEventListener('keydown',ev=>{const t=ev.target;if(ev.key==='Enter'&&t.dataset&&t.dataset.cn!==undefined){ev.preventDefault();addItem(t)}});
 addEventListener('hashchange',()=>{flt={q:'',s:''};if(location.hash!=='#search'){gq='';$('#gs').value=''}document.body.classList.remove('nav-open');render();scrollTo(0,0)});
-function theme(){document.documentElement.dataset.theme=D.prefs.theme;document.querySelector('[data-act=theme]').innerHTML=ic('sun')+(D.prefs.theme==='dark'?'Light mode':'Dark mode')}
+function theme(){document.documentElement.dataset.theme='dark'}
 
 /* ---------- init ---------- */
 D=load();
