@@ -105,12 +105,13 @@ const PROG=['Not started','Pending','Done'];
 const PRE_C=['','Planned','Drafting'];
 const PRE_J=['','Research ongoing','Data collection','Experiments','Drafting','Internal review','Ready for submission'];
 /* Statuses where a registration deadline is still actionable */
+const PRE_P=['','Idea / concept','Draft in preparation','IDF pending','Awaiting faculty signature','Ready for submission'];
 const REG_C=['Accepted','Camera-ready sent'];
 const SCHEMA={
  projects:{nav:'Research Projects',one:'project',st:'stage',statuses:S_PRJ,meta:r=>(r.repo||'').replace('https://github.com/',''),
   f:[['stage','Stage','sel',S_PRJ],['next','Next milestone','text'],['repo','GitHub repository','url'],['desc','Description','area'],['obj','Research objectives','area'],['prog','Technical progress, experiments and results','area']]},
  patents:{nav:'Patents',one:'patent',st:'status',statuses:S_PAT,meta:r=>pn(r.project),
-  f:[['status','Application status','sel',S_PAT],['project','Project','proj'],['idf','IDF','sel',['Pending','Completed']],['fee','Publication fee','sel',['Pending','Paid']],['pub','Publication','sel',['Pending','Published']],['grant','Patent grant','sel',['Pursuing','Not pursuing']],['appNo','Application number','text'],['filed','Filing date','date'],['inventors','Inventors','text'],['inst','Institution','text'],['pay','Payment details','text'],['docs','Submission documents (link)','url'],['link','Official link','url']]},
+  f:[['status','Application status','sel',S_PAT],['project','Project','proj'],['idf','IDF','sel',['Pending','Completed']],['idfDl','IDF submission deadline','date'],['fee','Publication fee','sel',['Pending','Paid']],['pub','Publication','sel',['Pending','Published']],['grant','Patent grant','sel',['Pursuing','Not pursuing']],['appNo','Application number','text'],['filed','Filing date','date'],['inventors','Inventors','text'],['inst','Institution','text'],['pay','Payment details','text'],['docs','Submission documents (link)','url'],['link','Official link','url']]},
  conferences:{nav:'Conferences',one:'conference paper',st:'status',statuses:S_CONF,meta:r=>[r.venue,r.start&&fmt(r.start)].filter(Boolean).join(', '),
   f:[['status','Status','sel',S_CONF],['project','Project','proj'],['paperId','Paper ID','text'],['venue','Conference','text'],['site','Website','url'],['start','Conference start','date'],['end','Conference end','date'],['subDl','Submission deadline','date'],['sub','Submission date','date'],['dec','Acceptance notification date','date'],['letter','Acceptance letter (link)','url'],['reg','Registration and payment','sel',PROG],['regDl','Registration deadline','date'],['cam','Camera-ready','sel',PROG],['pres','Presentation','sel',['Not scheduled','Preparing','Done']],['proc','Proceedings','sel',['Pending','Published']],['idx','Indexing','text']]},
  journals:{nav:'Journals',one:'manuscript',st:'status',statuses:S_JOU,meta:r=>r.journal,
@@ -139,7 +140,7 @@ projects:[
 patents:[
 {id:'t-wya',title:'WYA',project:'p-wya',status:'Submitted',idf:'Completed',fee:'Paid',pub:'Pending',grant:'Not pursuing',inst:'Manipal University Jaipur (E-Cell)',notes:'Follow up on publication status and keep the payment acknowledgement.'},
 {id:'t-try',title:'TryOn',project:'p-tryon',status:'Submitted',inst:'Manipal University Jaipur (E-Cell)',notes:'Most patentable part: mesh-measurement-driven garment wrap correction.'},
-{id:'t-vel',title:'Velaris',project:'p-vel',status:'IDF pending',idf:'Pending',inst:'Manipal University Jaipur (E-Cell)',notes:'IDF document is done; a teacher still has to submit it. Candidate claims: sketch-to-geometry conversion, manufacturability scoring.'},
+{id:'t-vel',title:'Velaris',project:'p-vel',status:'IDF pending',idf:'Pending',idfDl:'2027-01-30',inst:'Manipal University Jaipur (E-Cell)',notes:'IDF document is done; a teacher still has to submit it. Candidate claims: sketch-to-geometry conversion, manufacturability scoring.'},
 {id:'t-gw',title:'Greywater',status:'Approved by E-Cell',inst:'Manipal University Jaipur (E-Cell)',notes:'Small issue with the teacher, expected to be fixed in October 2026.'}],
 conferences:[
 {id:'c-wya',title:'WYA — From Pixels to Wardrobe',project:'p-wya',status:'Registered',reg:'Done',paperId:'379',venue:'EDGEI 2026',site:'https://edgei.org/',start:'2026-12-11',end:'2026-12-12',regDl:'2026-10-31',idx:'Springer LNNS, Scopus-indexed',notes:'Last known (Oct 2026): full paper accepted. Camera-ready, source file and payment proof were still to submit.'},
@@ -150,8 +151,8 @@ conferences:[
 {id:'c-vg',title:'VisualGuard-LVLM',project:'p-vg',status:'Awaiting decision',venue:'ICIPCN 2027',site:'https://icipcn.com/2027/',start:'2027-01-21',end:'2027-01-23',subDl:'2026-10-29'},
 {id:'c-ax',title:'ApexNet',status:'Planned',notes:'Target: later 2027.'}],
 journals:[
-{id:'j-wya',title:'WYA journal paper',project:'p-wya',status:'Internal review',notes:'Remaining: AI-content check and plagiarism check.'},
-{id:'j-btc',title:'Bitcoin fraud detection (ElliGAT)',project:'p-btc',status:'Drafting',notes:'About 75% done. Target: April 2027.'}],
+{id:'j-wya',title:'WYA journal paper',project:'p-wya',status:'Internal review',target:'2027-01-30',notes:'Remaining: AI-content check and plagiarism check.'},
+{id:'j-btc',title:'Bitcoin fraud detection (ElliGAT)',project:'p-btc',status:'Drafting',target:'2027-01-30',notes:'About 75% done. Target: April 2027.'}],
 books:[
 {id:'b-fai',title:'Fashion AI',sub:'Intelligent Systems for Personalisation, Conversational Styling, Computational Jewellery Design and Virtual Try-On',status:'Submitted',contract:'Not received',ms:'Draft ready',pubs:[{n:'Wiley',s:'Submitted',a:'Received',x:'Awaiting editorial update'},{n:'Springer Nature',s:'Submitted',a:'',x:'Update acknowledgement status'}]}]}};
 
@@ -188,6 +189,8 @@ function fix(x){x.sn=x.sn||{};x.act=x.act||[];x.prefs=x.prefs||{name:'Ria',theme
  if(!x.p6){x.p6=1;const r=x.records.conferences.find(q=>q.id==='c-vg');if(r&&/^(Planned|Drafting)$/.test(r.status)){r.status='Awaiting decision';r.u=now()}}
  if(!x.p7){x.p7=1;const p=x.records.projects.find(q=>q.id==='p-vel');if(p){p.stage='Submitted';p.u=now()}const c=x.records.conferences.find(q=>q.id==='c-vel');if(c){c.status='Awaiting decision';c.paperId='391';c.venue='ICDSI';c.site='https://www.icdsi.co.in/';c.subDl='2026-11-08';c.sub=c.sub||'2026-11-08';c.start='2027-02-04';c.end='2027-02-05';c.u=now()}}
  if(!x.p8){x.p8=1;const p=x.records.projects.find(q=>q.id==='p-vel');if(p&&/^(Building|Submitted)$/.test(p.stage)){p.stage='Awaiting decision';p.u=now()}}
+ if(!x.p9){x.p9=1;const set=(t,id,o)=>{const r=x.records[t].find(q=>q.id===id);if(r){Object.assign(r,o);r.u=now()}};set('journals','j-btc',{target:'2027-01-30'});set('journals','j-wya',{target:'2027-01-30'});set('patents','t-vel',{idfDl:'2027-01-30'})}
+ if(!x.p10){x.p10=1;const set=(t,id,o)=>{const r=x.records[t].find(q=>q.id===id);if(r){Object.assign(r,o);r.u=now()}};set('journals','j-btc',{target:'2027-01-30'});set('journals','j-wya',{target:'2027-01-30'});set('patents','t-vel',{idfDl:'2027-01-30'})}
  return x}
 const fmtL=L=>L.map(x=>(x.d?'[x] ':'[ ] ')+x.t).join('\n');
 const chk=(L,id)=>{const n=L.filter(x=>x.d).length;return `<div class="w"><span class="lb">Checklist${L.length?` (${n} of ${L.length} done)`:''}</span>${L.map((x,i)=>`<div class="ci${x.d?' dn':''}"><input type="checkbox" data-ci="${i}"${x.d?' checked':''} aria-label="Done"><input class="ct" data-ct="${i}" value="${e(x.t)}" aria-label="Checklist item"><button class="ic" data-act="cdel" data-i="${i}" aria-label="Remove item">×</button></div>`).join('')}<div class="ci"><input id="cn-${id}" data-cn placeholder="Add an item, then press Enter" aria-label="New checklist item"><button class="btn2" data-act="cadd">${ic('plus')} Add</button></div></div>`};
@@ -208,6 +211,7 @@ function deadlines(){const L=[];
  A('conferences').forEach(r=>{
   if(r.subDl&&PRE_C.includes(r.status||''))L.push({d:r.subDl,t:`Submission deadline: ${r.venue||r.title}`,id:r.id,ty:'conferences'});
   if(r.regDl&&REG_C.includes(r.status)&&r.reg!=='Done')L.push({d:r.regDl,t:`Registration deadline: ${r.venue||r.title}`,id:r.id,ty:'conferences'})});
+ A('patents').forEach(r=>r.idfDl&&r.idf!=='Completed'&&PRE_P.includes(r.status||'')&&L.push({d:r.idfDl,t:`IDF submission deadline: ${r.title}`,id:r.id,ty:'patents'}));
  A('journals').forEach(r=>r.target&&PRE_J.includes(r.status||'')&&L.push({d:r.target,t:`Target date: ${r.title}`,id:r.id,ty:'journals'}));
  return L.sort((a,b)=>a.d.localeCompare(b.d))}
 function events(){const L=[];
@@ -224,11 +228,11 @@ function dash(){
  const jp=J.filter(r=>!/^(Published|Rejected)$/.test(r.status)).length;
  const ts=T.filter(r=>!/^(|Idea \/ concept|Draft in preparation|IDF pending|IDF completed|Awaiting faculty signature|Ready for submission|Abandoned \/ withdrawn)$/.test(r.status)).length;
  const bs=B.filter(r=>!/^(|Idea|Proposal in preparation)$/.test(r.status)).length;
- const dl=deadlines().filter(x=>days(x.d)>=0),soon=dl.filter(x=>days(x.d)<=30).length;
- const S=[['projects','flask','#3b82f6',P.length,'Research projects',''],['conferences','file','#d946ef',C.length,'Conference papers',''],['conferences','check','#22c55e',acc,'Accepted papers',''],['conferences','clock','#f97316',wait,'Awaiting decision',''],['journals','pen','#6366f1',jp,'Journals in progress',''],['patents','shield','#14b8a6',ts,'Patents submitted',`${T.length} tracked`],['books','book','#ec4899',bs,'Book proposals submitted',''],['timeline','cal','#eab308',soon,'Deadlines in 30 days','']];
+ const dl=deadlines().filter(x=>days(x.d)>=0),soon=dl.length,far=dl.length?Math.max(...dl.map(x=>days(x.d))):0,win=far?`${far} day${far===1?'':'s'}`:'the future';
+ const S=[['projects','flask','#3b82f6',P.length,'Research projects',''],['conferences','file','#d946ef',C.length,'Conference papers',''],['conferences','check','#22c55e',acc,'Accepted papers',''],['conferences','clock','#f97316',wait,'Awaiting decision',''],['journals','pen','#6366f1',jp,'Journals in progress',''],['patents','shield','#14b8a6',ts,'Patents submitted',`${T.length} tracked`],['books','book','#ec4899',bs,'Book proposals submitted',''],['timeline','cal','#eab308',soon,`Deadlines in ${win}`,'']];
  const td=[];for(const t in SCHEMA)A(t).forEach(r=>(r.todo||[]).forEach(x=>!x.d&&td.push([t,r,x])));
  const rec=[];for(const t in SCHEMA)A(t).forEach(r=>r.u&&rec.push([t,r]));rec.sort((a,b)=>b[1].u.localeCompare(a[1].u));
- return `<section class="card hero"><div><h1>Welcome back, ${e(D.prefs.name)}</h1><p>${soon} deadline${soon===1?'':'s'} in the next 30 days. ${wait} paper${wait===1?'':'s'} awaiting a decision.</p></div><div class="logo">${ic('award')}</div></section>
+ return `<section class="card hero"><div><h1>Welcome back, ${e(D.prefs.name)}</h1><p>${soon} deadline${soon===1?'':'s'} in the next ${win}. ${wait} paper${wait===1?'':'s'} awaiting a decision.</p></div><div class="logo">${ic('award')}</div></section>
  <div class="stats">${S.map(s=>`<a class="card stat" href="#${s[0]}"><div class="si" style="background:${s[2]}">${ic(s[1])}</div><b>${s[3]}</b>${s[4]}${s[5]?`<br><small>${s[5]}</small>`:''}</a>`).join('')}</div>
  <div class="two"><div>
   <section class="card"><h2>Open checklist items (${td.length})</h2>${td.slice(0,8).map(([t,r,x])=>`<button class="row" data-act="go" data-t="${t}" data-id="${r.id}"><span><b>${e(x.t)}</b><small>${e(r.title)}, ${SCHEMA[t].one}</small></span></button>`).join('')||'<p class="mu">Nothing open.</p>'}</section>
@@ -327,7 +331,7 @@ document.querySelector('[data-act=export]').innerHTML=ic('down')+'Export backup 
 document.querySelector('[data-act=import]').innerHTML=ic('up')+'Import backup (JSON)';
 document.querySelector('[data-act=notes]').innerHTML=ic('file')+'Download checklists';
 theme();stamp();render();
-try{if(!localStorage.getItem(KEY)||!JSON.parse(localStorage.getItem(KEY)).p8)save()}catch(_){$('#warn').style.display='block'}
+try{if(!localStorage.getItem(KEY)||!JSON.parse(localStorage.getItem(KEY)).p10)save()}catch(_){$('#warn').style.display='block'}
 </script>
 </body>
 </html>
